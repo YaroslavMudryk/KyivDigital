@@ -1,3 +1,5 @@
+using KyivDigital.Business.Services.Implementations;
+using KyivDigital.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -15,13 +17,20 @@ namespace KyivDigital.MVC
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration _configuration { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient<ILoginService, LoginService>(client =>
+            {
+                client.BaseAddress = new Uri(_configuration["AppConfig:BaseUrl"]);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.DefaultRequestHeaders.Add("X-Client-Version", "1.1.1");
+                client.DefaultRequestHeaders.Add("X-Client-Platform", "0");
+            });
             services.AddControllersWithViews();
         }
 
