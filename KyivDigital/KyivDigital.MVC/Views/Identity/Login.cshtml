@@ -1,0 +1,36 @@
+﻿@model KyivDigital.MVC.Models.Identity.LoginRequest
+
+@{
+    ViewData["Title"] = "Вхід";
+}
+
+<h1>Вхід</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            @if (Model.IsVerify)
+            {
+                <div class="form-group">
+                    <label asp-for="Code" class="control-label"></label>
+                    <input asp-for="Code" class="form-control" />
+                    <span asp-validation-for="Code" class="text-danger"></span>
+                </div>
+            }
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="IsVerify" type="hidden" />
+            <div class="form-group">
+                <input type="submit" value="Увійти" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

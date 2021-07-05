@@ -3,11 +3,11 @@ namespace KyivDigital.Business.Models
 {
     public class Token
     {
-        [JsonPropertyName("profile")]
-        public string access_token { get; set; }
-        [JsonPropertyName("profile")]
-        public string token_type { get; set; }
-        [JsonPropertyName("profile")]
-        public int expires_in { get; set; }
+        [JsonPropertyName("access_token")]
+        public string AccessToken { get; set; }
+        [JsonPropertyName("token_type")]
+        public string TokenType { get; set; }
+        [JsonPropertyName("expires_in")]
+        public int ExpiresIn { get; set; }
     }
 }

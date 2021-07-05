@@ -50,7 +50,7 @@ namespace KyivDigital.Business.Models
 
         private string GetPlatform()
         {
-            return "Android";
+            return "0";
         }
 
         private string GetAppVersion()
