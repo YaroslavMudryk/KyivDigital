@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["KyivDigitalMVC/KyivDigitalMVC.csproj", "KyivDigitalMVC/"]
-RUN dotnet restore "KyivDigitalMVC/KyivDigitalMVC.csproj"
+COPY ["KyivDigital.MVC/KyivDigital.MVC.csproj", "KyivDigital.MVC/"]
+RUN dotnet restore "KyivDigital.MVC/KyivDigital.MVC.csproj"
 COPY . .
-WORKDIR "/src/KyivDigitalMVC"
-RUN dotnet build "KyivDigitalMVC.csproj" -c Release -o /app/build
+WORKDIR "/src/KyivDigital.MVC"
+RUN dotnet build "KyivDigital.MVC.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "KyivDigitalMVC.csproj" -c Release -o /app/publish
+RUN dotnet publish "KyivDigital.MVC.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "KyivDigitalMVC.dll"]
+ENTRYPOINT ["dotnet", "KyivDigital.MVC.dll"]

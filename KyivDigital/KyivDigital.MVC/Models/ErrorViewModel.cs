@@ -1,6 +1,6 @@
 using System;
 
-namespace KyivDigitalMVC.Models
+namespace KyivDigital.MVC.Models
 {
     public class ErrorViewModel
     {

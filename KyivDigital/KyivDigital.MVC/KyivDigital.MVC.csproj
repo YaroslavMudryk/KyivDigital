@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
-    <UserSecretsId>2af66fd1-86bb-4cad-9294-d34a5a9b20d9</UserSecretsId>
+    <UserSecretsId>f2c5f08f-68e0-4885-8847-c7b7c4a1c261</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 

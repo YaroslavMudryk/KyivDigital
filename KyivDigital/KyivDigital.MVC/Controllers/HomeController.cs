@@ -1,4 +1,4 @@
-﻿using KyivDigitalMVC.Models;
+﻿using KyivDigital.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace KyivDigitalMVC.Controllers
+namespace KyivDigital.MVC.Controllers
 {
     public class HomeController : Controller
     {

@@ -3,8 +3,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:35666",
-      "sslPort": 44353
+      "applicationUrl": "http://localhost:52133",
+      "sslPort": 44378
     }
   },
   "profiles": {
@@ -16,7 +16,7 @@
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation"
       }
     },
-    "KyivDigitalMVC": {
+    "KyivDigital.MVC": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
