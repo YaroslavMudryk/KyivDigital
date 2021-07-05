@@ -1,5 +1,4 @@
 ﻿using KyivDigital.Business.Models;
-using KyivDigital.Business.Services.Interfaces;
 using KyivDigital.MVC.Models.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,8 +14,8 @@ namespace KyivDigital.MVC.Controllers
     [Route("identity")]
     public class IdentityController : Controller
     {
-        private readonly ILoginService _loginService;
-        public IdentityController(ILoginService loginService)
+        private readonly Business.Services.Interfaces.IAuthenticationService _loginService;
+        public IdentityController(Business.Services.Interfaces.IAuthenticationService loginService)
         {
             _loginService = loginService;
         }
@@ -53,11 +52,6 @@ namespace KyivDigital.MVC.Controllers
             }
             if (model.Code != null && model.Code.Length == 4)
             {
-                //if (model.Code.Length != 4)
-                //{
-                //    ModelState.AddModelError("", "Код має мати 4 цифри");
-                //    return View(model);
-                //}
                 var result = await _loginService.VerifyCodeAsync(new LoginPhoneRequest(model.Phone, model.Code));
                 if (result.IsSuccess)
                 {
@@ -94,19 +88,17 @@ namespace KyivDigital.MVC.Controllers
 
         private async Task AuthAsync(TokenResponse tokenResponse)
         {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, tokenResponse.Profile.Id.ToString()),
-                new Claim(ClaimTypes.Role, "User"),
-                new Claim(ClaimTypes.AuthenticationMethod, "MVC"),
-                new Claim(ClaimTypes.Email, tokenResponse.Profile.Emails.First().EmailAddress),
-                new Claim(ClaimTypes.MobilePhone, tokenResponse.Profile.Phones.First(x=>x.Type=="PRIMARY").PhoneNumer),
-                new Claim("accessToken", tokenResponse.Token.AccessToken),
-                new Claim("FirstName",tokenResponse.Profile.FirstName),
-                new Claim("MiddleName",tokenResponse.Profile.MiddleName),
-                new Claim("LastName", tokenResponse.Profile.LastName),
-                new Claim("Avatar", tokenResponse.Profile.Avatar)
-            };
+            var claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, tokenResponse.Profile.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.Role, "User"));
+            claims.Add(new Claim(ClaimTypes.AuthenticationMethod, "Web"));
+            claims.Add(new Claim(ClaimTypes.Email, tokenResponse.Profile.Emails.First().EmailAddress ?? "Test1"));
+            claims.Add(new Claim(ClaimTypes.MobilePhone, tokenResponse.Profile.Phones.First(x=>x.Type=="PRIMARY").PhoneNumer ?? "Test1"));
+            claims.Add(new Claim("accessToken", tokenResponse.Token.AccessToken));
+            claims.Add(new Claim("FirstName",tokenResponse.Profile.FirstName ?? "Test1"));
+            claims.Add(new Claim("MiddleName",tokenResponse.Profile.MiddleName ?? "Test1"));
+            claims.Add(new Claim("LastName", tokenResponse.Profile.LastName ?? "Test1"));
+            claims.Add(new Claim("Avatar", tokenResponse.Profile.Avatar ?? "Test1"));
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }

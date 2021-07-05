@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 namespace KyivDigital.Business.Services.Interfaces
 {
-    public interface ILoginService
+    public interface IAuthenticationService
     {
         Task<LoginResponse> LoginAsync(LoginPhoneRequest login);
         Task<TokenResponse> VerifyCodeAsync(LoginPhoneRequest login);

@@ -1,23 +1,21 @@
 ﻿using KyivDigital.Business.Models;
 using KyivDigital.Business.Other;
 using KyivDigital.Business.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 namespace KyivDigital.Business.Services.Implementations
 {
-    public class LoginService : ILoginService
+    public class AuthenticationService : IAuthenticationService
     {
         private readonly HttpClient _httpClient;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IClaimsProvider _claimsProvider;
 
-        public LoginService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
+        public AuthenticationService(HttpClient httpClient, IClaimsProvider claimsProvider)
         {
             _httpClient = httpClient;
-            _httpContextAccessor = httpContextAccessor;
+            _claimsProvider = claimsProvider;
         }
 
         public async Task<LoginResponse> LoginAsync(LoginPhoneRequest login)
@@ -30,9 +28,7 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> LogoutAsync()
         {
-            var token = _httpContextAccessor.HttpContext.User.Claims.First(x => x.Type == "accessToken");
-            if (token != null)
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token.Value);
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var response = await _httpClient.PostAsync("api/v3/auth/logout", null);
             if (response.IsSuccessStatusCode)
                 return new BaseResponse

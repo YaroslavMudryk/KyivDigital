@@ -25,13 +25,13 @@ namespace KyivDigital.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddHttpClient<ILoginService, LoginService>(client =>
+            services.AddTransient<IClaimsProvider, ClaimsProvider>();
+            services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
             {
                 client.BaseAddress = new Uri(_configuration["AppConfig:BaseUrl"]);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
                 client.DefaultRequestHeaders.Add("X-Client-Version", "1.1.1");
                 client.DefaultRequestHeaders.Add("X-Client-Platform", "0");
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", "");
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
