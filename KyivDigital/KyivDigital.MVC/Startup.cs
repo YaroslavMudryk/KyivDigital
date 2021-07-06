@@ -35,6 +35,10 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IFeedService, FeedService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {

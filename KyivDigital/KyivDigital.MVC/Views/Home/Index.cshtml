@@ -1,4 +1,5 @@
-﻿@{
+﻿@model KyivDigital.Business.Models.PagedFeedResponse
+@{
     ViewData["Title"] = "Домашня сторінка";
     var nameClaim = User.Claims.FirstOrDefault(x => x.Type == "FirstName");
     string name = null;
@@ -9,4 +10,5 @@
 <div class="text-center">
     <h1 class="display-4">Вітаємо, @name!</h1>
     <p>Перша версія веб застосунку "Київ Цифровий"</p>
+    <p>У вас @Model.Feed.Meta.Pagination.Total новин</p>
 </div>
