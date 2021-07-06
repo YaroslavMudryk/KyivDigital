@@ -23,7 +23,10 @@ namespace KyivDigital.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
+            services.AddDistributedMemoryCache();
+            services.AddSession();
             services.AddTransient<IClaimsProvider, ClaimsProvider>();
+            services.AddTransient<ISessionService, SessionService>();
             services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
             {
                 client.InitializationKyivDigitalClient();
@@ -57,7 +60,7 @@ namespace KyivDigital.MVC
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

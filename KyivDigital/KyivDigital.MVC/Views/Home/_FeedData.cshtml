@@ -1,6 +1,6 @@
-﻿@model IEnumerable<KyivDigital.Business.Models.FeedItemModel>
+﻿@model KyivDigital.Business.Models.PagedFeedResponse
 
-@foreach (var item in Model)
+@foreach (var item in Model.Feed.Data)
 {
     <tr>
         <td>
