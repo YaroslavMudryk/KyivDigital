@@ -7,8 +7,9 @@
     <link rel="shortcut icon" href="~/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - KyivDigital.MVC</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 @{
     string fullName = null;
@@ -17,89 +18,148 @@
     if (firstName != null && lastName != null)
         fullName = $"{firstName.Value} {lastName.Value}";
 
-    var headLine = await headLineService.GetHeadLineAsync();
+    KyivDigital.Business.Models.HeadLineModel headLine = null;
+    if (User.Identity.IsAuthenticated)
+        await headLineService.GetHeadLineAsync();
 
 }
 <body>
     @*<header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@fullName</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@fullName</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <p>@headLine.Weather.Temp℃</p>
+                                </li>
+                                <li class="nav-item">
+                                    @switch (headLine.Weather.Condition)
+                                    {
+                                        case 0:
+                                            {
+                                                <img src="~/Picts/weather/sun.svg" width="30" height="30" />
+                                                break;
+                                            }
+                                        case 1:
+                                            {
+                                                break;
+                                            }
+                                        case 2:
+                                            {
+                                                break;
+                                            }
+                                        case 3:
+                                            {
+                                                break;
+                                            }
+                                        default:
+                                            break;
+                                    }
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                    else
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Київ Цифровий</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    }
+
                     <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
-                                <p>@headLine.Weather.Temp℃</p>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                             </li>
                             <li class="nav-item">
-                                @switch (headLine.Weather.Condition)
-                                {
-                                    case 0:
-                                        {
-                                            <img src="~/Picts/weather/sun.svg" width="30" height="30" />
-                                            break;
-                                        }
-                                    case 1:
-                                        {
-                                            break;
-                                        }
-                                    case 2:
-                                        {
-                                            break;
-                                        }
-                                    case 3:
-                                        {
-                                            break;
-                                        }
-                                    default:
-                                        break;
-                                }
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
                         </ul>
                     </div>
-                }
-                else
-                {
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Київ Цифровий</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                }
-
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
                 </div>
-            </div>
-        </nav>
-    </header>*@
+            </nav>
+        </header>*@
+
+    <style>
+        .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+        }
+
+        .form-control-dark {
+            color: #fff;
+            background-color: var(--bs-dark);
+            border-color: var(--bs-gray);
+        }
+
+            .form-control-dark:focus {
+                color: #fff;
+                background-color: var(--bs-dark);
+                border-color: #fff;
+                box-shadow: 0 0 0 .25rem rgba(255, 255, 255, .25);
+            }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+        .text-small {
+            font-size: 85%;
+        }
+
+        .dropdown-toggle {
+            outline: 0;
+        }
+
+    </style>
 
     <header class="p-3 mb-3 border-bottom">
-        <div class="container">
-            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
-                    <img src="~/Picts/logo.svg" width="100" height="80" />
-                </a>
-                <div class="dropdown text-end">
-                    <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="@claimsProvider.GetValueByType("Avatar")" width="32" height="32" class="rounded-circle" />
+            <div class="container">
+                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none" title="home">
+                        <img src="~/Picts/logo.svg" width="140" height="50" title="avatar" />
                     </a>
+                    <div class="dropdown text-end">
+                        <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" title="home">
+                            <img src="@claimsProvider.GetValueByType("Avatar")" width="40" height="40" class="rounded-circle" title="avatar" />
+                        </a>
+                        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
+                            <li><a class="dropdown-item" href="#">New project...</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Sign out</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
