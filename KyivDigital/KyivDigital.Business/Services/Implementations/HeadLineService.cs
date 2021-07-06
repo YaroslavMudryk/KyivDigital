@@ -10,7 +10,6 @@ namespace KyivDigital.Business.Services.Implementations
     {
         private readonly HttpClient _httpClient;
         private readonly IClaimsProvider _claimsProvider;
-
         public HeadLineService(HttpClient httpClient, IClaimsProvider claimsProvider)
         {
             _httpClient = httpClient;

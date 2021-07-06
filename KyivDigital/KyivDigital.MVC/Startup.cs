@@ -1,5 +1,6 @@
 using KyivDigital.Business.Services.Implementations;
 using KyivDigital.Business.Services.Interfaces;
+using KyivDigital.MVC.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,17 +29,11 @@ namespace KyivDigital.MVC
             services.AddTransient<IClaimsProvider, ClaimsProvider>();
             services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
             {
-                client.BaseAddress = new Uri(_configuration["AppConfig:BaseUrl"]);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("X-Client-Version", "1.1.1");
-                client.DefaultRequestHeaders.Add("X-Client-Platform", "0");
+                client.InitializationKyivDigitalClient();
             });
             services.AddHttpClient<IHeadLineService, HeadLineService>(client =>
             {
-                client.BaseAddress = new Uri(_configuration["AppConfig:BaseUrl"]);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-                client.DefaultRequestHeaders.Add("X-Client-Version", "1.1.1");
-                client.DefaultRequestHeaders.Add("X-Client-Platform", "0");
+                client.InitializationKyivDigitalClient();
             });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
