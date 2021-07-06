@@ -26,6 +26,7 @@ namespace KyivDigital.MVC.Helper
 
         private static string[] availableOperators() => new string[]
         {
+            "063",
             "073",
             "093",
             "095",

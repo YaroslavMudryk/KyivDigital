@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@inject KyivDigital.Business.Services.Interfaces.IHeadLineService headLineService
+@inject KyivDigital.Business.Services.Interfaces.IClaimsProvider claimsProvider
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -14,9 +16,12 @@
     var lastName = User.Claims.FirstOrDefault(x => x.Type == "LastName");
     if (firstName != null && lastName != null)
         fullName = $"{firstName.Value} {lastName.Value}";
+
+    var headLine = await headLineService.GetHeadLineAsync();
+
 }
 <body>
-    <header>
+    @*<header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
                 @if (User.Identity.IsAuthenticated)
@@ -26,6 +31,37 @@
                             aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <p>@headLine.Weather.Temp℃</p>
+                            </li>
+                            <li class="nav-item">
+                                @switch (headLine.Weather.Condition)
+                                {
+                                    case 0:
+                                        {
+                                            <img src="~/Picts/weather/sun.svg" width="30" height="30" />
+                                            break;
+                                        }
+                                    case 1:
+                                        {
+                                            break;
+                                        }
+                                    case 2:
+                                        {
+                                            break;
+                                        }
+                                    case 3:
+                                        {
+                                            break;
+                                        }
+                                    default:
+                                        break;
+                                }
+                            </li>
+                        </ul>
+                    </div>
                 }
                 else
                 {
@@ -48,7 +84,26 @@
                 </div>
             </div>
         </nav>
+    </header>*@
+
+    <header class="p-3 mb-3 border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+                    <img src="~/Picts/logo.svg" width="100" height="80" />
+                </a>
+                <div class="dropdown text-end">
+                    <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="@claimsProvider.GetValueByType("Avatar")" width="32" height="32" class="rounded-circle" />
+                    </a>
+                </div>
+            </div>
+        </div>
     </header>
+
+
+
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
