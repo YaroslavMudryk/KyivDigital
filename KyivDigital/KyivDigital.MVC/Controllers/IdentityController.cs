@@ -76,6 +76,8 @@ namespace KyivDigital.MVC.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
+            if (!User.Identity.IsAuthenticated)
+                return LocalRedirect("~/identity/login");
             var res = _loginService.LogoutAsync();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");

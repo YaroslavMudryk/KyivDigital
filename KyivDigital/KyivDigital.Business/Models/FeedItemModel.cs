@@ -1,5 +1,6 @@
-﻿using System.Text.Json.Serialization;
-
+﻿using KyivDigital.Business.Helpers;
+using System;
+using System.Text.Json.Serialization;
 namespace KyivDigital.Business.Models
 {
     public class FeedItemModel
@@ -9,7 +10,9 @@ namespace KyivDigital.Business.Models
         [JsonPropertyName("clickable")]
         public bool Clickable { get; set; }
         [JsonPropertyName("created_at")]
-        public long CreatedAt { get; set; }
+        [JsonConverter(typeof(DateTimeConverter))]
+        public DateTime CreatedAt { get; set; }
+        public string CreatedTimeTitle => DateTimeHelper.GetTitleTime(CreatedAt);
         [JsonPropertyName("description")]
         public string Description { get; set; }
         [JsonPropertyName("icon")]

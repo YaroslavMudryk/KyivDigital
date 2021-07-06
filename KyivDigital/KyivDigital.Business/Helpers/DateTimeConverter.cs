@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-namespace KyivDigital.Business.Other
+namespace KyivDigital.Business.Helpers
 {
     public class DateTimeConverter : JsonConverter<DateTime>
     {

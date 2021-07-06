@@ -6,9 +6,9 @@
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="~/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - KyivDigital.MVC</title>
-    <link rel="stylesheet" href="https://getbootstrap.com/docs/5.0/dist/css/bootstrap.min.css" />
+    <title>Київ Цифровий - @ViewData["Title"]</title>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 @{
@@ -20,7 +20,7 @@
 
     KyivDigital.Business.Models.HeadLineModel headLine = null;
     if (User.Identity.IsAuthenticated)
-        await headLineService.GetHeadLineAsync();
+        headLine = await headLineService.GetHeadLineAsync();
 
 }
 <body>
@@ -89,14 +89,14 @@
             </nav>
         </header>*@
 
-    
-
     <header class="p-3 mb-3 border-bottom">
-            <div class="container">
-                <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                    <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none" title="home">
-                        <img src="~/Picts/logo.svg" width="140" height="50" title="avatar" />
-                    </a>
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none" title="home">
+                    <img src="~/Picts/logo.svg" width="140" height="50" title="avatar" />
+                </a>
+                @if (User.Identity.IsAuthenticated)
+                {
                     <div class="dropdown">
                         <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" title="home">
                             <img src="@claimsProvider.GetValueByType("Avatar")" width="40" height="40" class="rounded-circle" title="avatar" />
@@ -109,9 +109,10 @@
                             <li><a class="dropdown-item" href="@Url.Action("Logout","Identity")">Вийти</a></li>
                         </ul>
                     </div>
-                </div>
+                }
             </div>
-        </header>
+        </div>
+    </header>
 
 
 
