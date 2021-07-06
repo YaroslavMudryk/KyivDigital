@@ -1,14 +1,45 @@
-﻿@model KyivDigital.Business.Models.PagedFeedResponse
+﻿@model IEnumerable<KyivDigital.Business.Models.FeedItemModel>
 @{
     ViewData["Title"] = "Домашня сторінка";
     var nameClaim = User.Claims.FirstOrDefault(x => x.Type == "FirstName");
     string name = null;
     if (nameClaim != null)
         name = nameClaim.Value;
+
+    int Page = 1;
+    int Count = 20;
 }
 
 <div class="text-center">
     <h1 class="display-4">Вітаємо, @name!</h1>
     <p>Перша версія веб застосунку "Київ Цифровий"</p>
-    <p>У вас @Model.Feed.Meta.Pagination.Total новин</p>
 </div>
+
+
+<table id="anyTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/js/InfinitiySroll.js"></script>
+
+    <script>
+        var Page = 1;
+        var Count = 20;
+        var infinityScroll = new InfinitiySroll("anyTable", "/home/_FeedData", { page: @Page, count: @Count });
+        @{
+            Page = Page + 1;
+        }
+    </script>
+}

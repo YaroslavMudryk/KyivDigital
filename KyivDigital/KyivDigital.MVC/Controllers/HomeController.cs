@@ -1,8 +1,10 @@
-﻿using KyivDigital.Business.Services.Interfaces;
+﻿using KyivDigital.Business.Models;
+using KyivDigital.Business.Services.Interfaces;
 using KyivDigital.MVC.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 namespace KyivDigital.MVC.Controllers
 {
@@ -18,7 +20,7 @@ namespace KyivDigital.MVC.Controllers
             _feedService = feedService;
         }
 
-        public async Task<IActionResult> Index() => View(await _feedService.GetPagedUserHistoryAsync());
+        public IActionResult Index() => View();
 
         [HttpGet("start")]
         [AllowAnonymous]
@@ -31,6 +33,17 @@ namespace KyivDigital.MVC.Controllers
             if (model == null || string.IsNullOrEmpty(model.Error))
                 return View(new ErrorViewModel { StatusCode = 404, Error = "Сторінка не знайдена", Title = "Not found" });
             return View(model);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> _FeedData(int page, int count)
+        {
+            List<FeedItemModel> items = null;
+            var response = await _feedService.GetPagedUserHistoryAsync(page, count);
+            if (response.Feed.Data != null || response.Feed.Data.Count > 0)
+                items = response.Feed.Data;
+            return PartialView(items);
         }
     }
 }
