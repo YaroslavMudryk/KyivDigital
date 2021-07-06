@@ -1,4 +1,5 @@
 ﻿using KyivDigital.Business.Models;
+using KyivDigital.MVC.Helper;
 using KyivDigital.MVC.Models.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -45,6 +46,11 @@ namespace KyivDigital.MVC.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return LocalRedirect("~/");
+            if (!MobileHelper.ValidateMobile(model.Phone))
+            {
+                ModelState.AddModelError("", "Невірний формат телефону");
+                return View(model);
+            }
             if(!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Перевірте дані");
