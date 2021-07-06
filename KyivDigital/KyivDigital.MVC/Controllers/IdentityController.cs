@@ -1,4 +1,5 @@
 ﻿using KyivDigital.Business.Models;
+using KyivDigital.Business.Services.Interfaces;
 using KyivDigital.MVC.Helper;
 using KyivDigital.MVC.Models.Identity;
 using Microsoft.AspNetCore.Authentication;
@@ -16,9 +17,12 @@ namespace KyivDigital.MVC.Controllers
     public class IdentityController : Controller
     {
         private readonly Business.Services.Interfaces.IAuthenticationService _loginService;
-        public IdentityController(Business.Services.Interfaces.IAuthenticationService loginService)
+
+        private readonly ISessionService _sessionService;
+        public IdentityController(Business.Services.Interfaces.IAuthenticationService loginService, ISessionService sessionService)
         {
             _loginService = loginService;
+            _sessionService = sessionService;
         }
 
 
@@ -79,6 +83,7 @@ namespace KyivDigital.MVC.Controllers
             if (!User.Identity.IsAuthenticated)
                 return LocalRedirect("~/identity/login");
             var res = _loginService.LogoutAsync();
+            _sessionService.ClearSessions();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
         }
@@ -106,7 +111,7 @@ namespace KyivDigital.MVC.Controllers
             claims.Add(new Claim("FirstName",tokenResponse.Profile.FirstName ?? "Test1"));
             claims.Add(new Claim("MiddleName",tokenResponse.Profile.MiddleName ?? "Test1"));
             claims.Add(new Claim("LastName", tokenResponse.Profile.LastName ?? "Test1"));
-            claims.Add(new Claim("Avatar", tokenResponse.Profile.Avatar ?? "Test1"));
+            claims.Add(new Claim("Avatar", tokenResponse.Profile.Avatar ?? "/Picts/Default.jpg"));
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
