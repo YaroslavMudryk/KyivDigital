@@ -1,6 +1,6 @@
 ﻿@model KyivDigital.Business.Models.PagedFeedResponse
 @{
-    ViewData["Title"] = "Домашня сторінка";
+    ViewData["Title"] = "Новини";
     var nameClaim = User.Claims.FirstOrDefault(x => x.Type == "FirstName");
     string name = null;
     if (nameClaim != null)
