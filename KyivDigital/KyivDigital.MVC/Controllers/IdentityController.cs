@@ -26,10 +26,7 @@ namespace KyivDigital.MVC.Controllers
         }
 
 
-        public IActionResult Index()
-        {
-            return RedirectToAction("Login");
-        }
+        public IActionResult Index() => RedirectToAction("Login");
 
 
         [HttpGet("login")]
@@ -37,7 +34,6 @@ namespace KyivDigital.MVC.Controllers
         {
             if (User.Identity.IsAuthenticated)
                 return LocalRedirect("~/");
-
             return View(new LoginRequest
             {
                 IsVerify = false,
