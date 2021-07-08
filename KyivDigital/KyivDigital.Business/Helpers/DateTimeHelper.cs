@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace KyivDigital.Business.Helpers
 {
@@ -11,7 +12,9 @@ namespace KyivDigital.Business.Helpers
                 return "Сьогодні";
             if (diff.Days == 1)
                 return "Вчора";
-            return dateTime.ToString("dd MMMM yyyy");
+            if (diff.Days <= 365)
+                return dateTime.ToString("dd MMMM", CultureInfo.CreateSpecificCulture("uk"));
+            return dateTime.ToString("dd MMMM yyyy", CultureInfo.CreateSpecificCulture("uk"));
         }
     }
 }
