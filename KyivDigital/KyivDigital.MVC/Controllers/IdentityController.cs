@@ -122,12 +122,12 @@ namespace KyivDigital.MVC.Controllers
             claims.Add(new Claim(ClaimTypes.NameIdentifier, profile.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Role, "User"));
             claims.Add(new Claim(ClaimTypes.AuthenticationMethod, "Web"));
-            claims.Add(new Claim(ClaimTypes.Email, profile.Emails.First().EmailAddress ?? "Test1"));
-            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY").PhoneNumer ?? "Test1"));
+            claims.Add(new Claim(ClaimTypes.Email, profile.Emails.First()?.EmailAddress ?? "def@def"));
+            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY")?.PhoneNumer ?? "059950"));
             claims.Add(new Claim("accessToken", token));
-            claims.Add(new Claim("FirstName", profile.FirstName ?? "Test1"));
-            claims.Add(new Claim("MiddleName", profile.MiddleName ?? "Test1"));
-            claims.Add(new Claim("LastName", profile.LastName ?? "Test1"));
+            claims.Add(new Claim("FirstName", profile.FirstName ?? "Киянин"));
+            claims.Add(new Claim("MiddleName", profile.MiddleName ?? "Киянин"));
+            claims.Add(new Claim("LastName", profile.LastName ?? "Киянин"));
             claims.Add(new Claim("Avatar", profile.Avatar ?? "/Picts/Default.jpg"));
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
