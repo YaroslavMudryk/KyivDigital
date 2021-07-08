@@ -32,9 +32,37 @@ namespace KyivDigital.Business.Models
         }
 
         #region Private
+
+        private string[] _phones = new string[]
+        {
+            "Samsung A30",
+            "Samsung A32",
+            "Samsung A31",
+            "Xiaomi Note 5",
+            "Xiaomi Note 11 Pro",
+            "Asus Rog 2",
+            "Asus Rog Pro",
+            "HUAWEI P20 Pro",
+            "HUAWEI P40",
+            "Sony Xperia 5",
+            "Sony Xperia 4 Pro",
+            "OnePlus 9 Pro",
+            "OnePlus 8",
+            "Google Pixel 3 Pro",
+            "Google Pixel 5",
+            "HTC U11",
+            "Lenovo A328",
+            "Lenovo S660",
+            "Meizu M3 Note",
+            "Meizu M5",
+            "Nomi i5071"
+        };
+
         private string GetRandomPhone()
         {
-            return "Samsung A30";
+            var rnd = new Random();
+            var randomIndex = rnd.Next(0, _phones.Length);
+            return _phones[randomIndex];
         }
 
         private string GetRandomOSVersion(int minVersion = 7, int maxVersion = 12)
