@@ -7,9 +7,9 @@ namespace KyivDigital.Business.Helpers
         public static string GetTitleTime(DateTime dateTime)
         {
             var diff = DateTime.Today.Subtract(dateTime);
-            if (diff == TimeSpan.FromDays(0))
+            if (diff.Days == 0)
                 return "Сьогодні";
-            if (diff == TimeSpan.FromDays(1))
+            if (diff.Days == 1)
                 return "Вчора";
             return dateTime.ToString("dd MMMM yyyy");
         }
