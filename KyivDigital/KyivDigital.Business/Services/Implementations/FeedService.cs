@@ -17,6 +17,23 @@ namespace KyivDigital.Business.Services.Implementations
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
         }
+
+        public async Task<FeedFineResponse> GetFineFeedAsync(string id)
+        {
+            if (!id.StartsWith("cmp"))
+                return new FeedFineResponse
+                {
+                    IsSuccess = false,
+                    ErrorMessage = "This feed not valid for this method"
+                };
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
+            string url = $"api/v3/feed/{id}";
+            var response = await _httpClient.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            var feedResponse = JsonSerializer.Deserialize<FeedFineResponse>(content);
+            return feedResponse;
+        }
+
         public async Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page = default, int count = default)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
@@ -38,6 +55,11 @@ namespace KyivDigital.Business.Services.Implementations
         public MockFeedService(HttpClient httpClient)
         {
             _httpClient = httpClient;
+        }
+
+        public Task<FeedFineResponse> GetFineFeedAsync(string id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page = 0, int count = 0)

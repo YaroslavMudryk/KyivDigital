@@ -13,6 +13,12 @@ namespace KyivDigital.Business.Services.Implementations.Mocks
         {
 
         }
+
+        public async Task<FeedFineResponse> GetFineFeedAsync(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public async Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page = 0, int count = 0)
         {
             using var sr = new StreamReader(@"C:\Mocks\AllFeed.json");

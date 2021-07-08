@@ -40,7 +40,7 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
-            services.AddHttpClient<IFeedService, FileFeedService>(client =>
+            services.AddHttpClient<IFeedService, FeedService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
