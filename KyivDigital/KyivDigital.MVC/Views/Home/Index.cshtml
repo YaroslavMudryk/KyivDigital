@@ -12,25 +12,16 @@
     <p>Перша версія веб застосунку "Київ Цифровий"</p>
 </div>
 
-<table id="anyTable" class="table">
-    <thead>
-        <tr>
-            <th>
-                Title
-            </th>
-            <th>
-                Description
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-    </tbody>
-</table>
+<div class="page-content page-container col-sm-12" id="page-content">
+        <div class="list list-row block" id="feedNews">
+
+        </div>
+</div>
 
 @section Scripts {
     <script src="~/js/InfinitiySroll.js"></script>
 
     <script>
-        var infinityScroll = new InfinitiySroll("anyTable", "/home/_FeedData", { });
+        var infinityScroll = new InfinitiySroll("feedNews", "/home/_FeedData", {});
     </script>
 }
