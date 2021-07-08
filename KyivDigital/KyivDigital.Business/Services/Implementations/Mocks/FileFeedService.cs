@@ -15,7 +15,7 @@ namespace KyivDigital.Business.Services.Implementations.Mocks
         }
         public async Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page = 0, int count = 0)
         {
-            using var sr = new StreamReader(@"D:\Projects\KyivDigital\KyivDigital\KyivDigital.Business\bin\Debug\net5.0\Mocks\AllFeed.json");
+            using var sr = new StreamReader(@"C:\Mocks\AllFeed.json");
             var content = await sr.ReadToEndAsync();
             var feedResponse = JsonSerializer.Deserialize<PagedFeedResponse>(content);
             return feedResponse;
