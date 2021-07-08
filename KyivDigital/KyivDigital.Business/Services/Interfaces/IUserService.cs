@@ -6,5 +6,8 @@ namespace KyivDigital.Business.Services.Interfaces
     {
         Task<Profile> GetUserProfileAsync();
         Task<Profile> GetUserProfileAsync(string accessToken);
+        Task<AdressesListModel> GetUserAdressesAsync();
+        Task<NotificationsResponse> GetUserNotificationsAsync();
+        Task<Addresse> SaveAddressAsync(AddOrEditAddressRequest addOrEditAddressRequest);
     }
 }
