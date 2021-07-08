@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 namespace KyivDigital.Business.Models
 {
-    public class Profile
+    public class Profile : BaseResponse
     {
         [JsonPropertyName("id")]
         public int Id { get; set; }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -17,19 +18,17 @@ namespace KyivDigital.MVC.Controllers
     public class IdentityController : Controller
     {
         private readonly Business.Services.Interfaces.IAuthenticationService _loginService;
-
+        private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
-        public IdentityController(Business.Services.Interfaces.IAuthenticationService loginService, ISessionService sessionService)
+        public IdentityController(Business.Services.Interfaces.IAuthenticationService loginService, ISessionService sessionService, IUserService userService)
         {
             _loginService = loginService;
             _sessionService = sessionService;
+            _userService = userService;
         }
 
 
-        public IActionResult Index()
-        {
-            return RedirectToAction("Login");
-        }
+        public IActionResult Index() => RedirectToAction("Login");
 
 
         [HttpGet("login")]
@@ -55,7 +54,7 @@ namespace KyivDigital.MVC.Controllers
                 ModelState.AddModelError("", "Невірний формат телефону");
                 return View(model);
             }
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Перевірте дані");
                 return View(model);
@@ -65,7 +64,7 @@ namespace KyivDigital.MVC.Controllers
                 var result = await _loginService.VerifyCodeAsync(new LoginPhoneRequest(model.Phone, model.Code));
                 if (result.IsSuccess)
                 {
-                    await AuthAsync(result);
+                    await AuthAsync(result.Profile, result.Token.AccessToken);
                     return LocalRedirect("~/");
                 }
                 ModelState.AddModelError("", result.ErrorMessage);
@@ -82,36 +81,55 @@ namespace KyivDigital.MVC.Controllers
         {
             if (!User.Identity.IsAuthenticated)
                 return LocalRedirect("~/identity/login");
-            var res = _loginService.LogoutAsync();
+            //var res = _loginService.LogoutAsync();
             _sessionService.ClearSessions();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
+        }
+
+        [HttpGet("sso")]
+        public async Task<IActionResult> LoginSSO(string accessToken, string returnUrl)
+        {
+            var response = await _userService.GetUserProfileAsync(accessToken);
+            if (response.IsSuccess)
+            {
+                Uri outUri;
+                if (Uri.TryCreate(returnUrl, UriKind.Absolute, out outUri))
+                    returnUrl = outUri.PathAndQuery;
+                if (!Url.IsLocalUrl(returnUrl))
+                {
+                    return LocalRedirect("~/identity/login");
+                }
+                await AuthAsync(response, accessToken);
+                return Redirect(returnUrl);
+            }
+            return LocalRedirect("~/identity/login");
         }
 
         [Authorize]
         [HttpGet("root")]
         public IActionResult GetClaims()
         {
-            return Ok(User.Claims.Select(x=> new
+            return Ok(User.Claims.Select(x => new
             {
                 Type = x.Type,
                 Value = x.Value
             }));
         }
 
-        private async Task AuthAsync(TokenResponse tokenResponse)
+        private async Task AuthAsync(Profile profile, string token)
         {
             var claims = new List<Claim>();
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, tokenResponse.Profile.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.NameIdentifier, profile.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Role, "User"));
             claims.Add(new Claim(ClaimTypes.AuthenticationMethod, "Web"));
-            claims.Add(new Claim(ClaimTypes.Email, tokenResponse.Profile.Emails.First().EmailAddress ?? "Test1"));
-            claims.Add(new Claim(ClaimTypes.MobilePhone, tokenResponse.Profile.Phones.First(x=>x.Type=="PRIMARY").PhoneNumer ?? "Test1"));
-            claims.Add(new Claim("accessToken", tokenResponse.Token.AccessToken));
-            claims.Add(new Claim("FirstName",tokenResponse.Profile.FirstName ?? "Test1"));
-            claims.Add(new Claim("MiddleName",tokenResponse.Profile.MiddleName ?? "Test1"));
-            claims.Add(new Claim("LastName", tokenResponse.Profile.LastName ?? "Test1"));
-            claims.Add(new Claim("Avatar", tokenResponse.Profile.Avatar ?? "/Picts/Default.jpg"));
+            claims.Add(new Claim(ClaimTypes.Email, profile.Emails.First().EmailAddress ?? "Test1"));
+            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY").PhoneNumer ?? "Test1"));
+            claims.Add(new Claim("accessToken", token));
+            claims.Add(new Claim("FirstName", profile.FirstName ?? "Test1"));
+            claims.Add(new Claim("MiddleName", profile.MiddleName ?? "Test1"));
+            claims.Add(new Claim("LastName", profile.LastName ?? "Test1"));
+            claims.Add(new Claim("Avatar", profile.Avatar ?? "/Picts/Default.jpg"));
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }

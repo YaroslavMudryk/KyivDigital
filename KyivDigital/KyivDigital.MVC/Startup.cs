@@ -36,6 +36,10 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IUserService, UserService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
             services.AddHttpClient<IFeedService, FileFeedService>(client =>
             {
                 client.InitializationKyivDigitalClient();
