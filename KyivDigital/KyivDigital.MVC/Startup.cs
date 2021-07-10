@@ -47,6 +47,10 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IBankCardService, BankCardService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
