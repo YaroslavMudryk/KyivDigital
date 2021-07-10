@@ -71,6 +71,10 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IHourlyParkingService, HourlyParkingServiceV4>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
 
 
 
