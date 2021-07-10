@@ -16,7 +16,7 @@ namespace KyivDigital.Business.Models
         [JsonPropertyName("bankid_connected")]
         public bool BankidConnected { get; set; }
         [JsonPropertyName("profile")]
-        public object[] Actions { get; set; }
+        public ProfileAction[] Actions { get; set; }
         [JsonPropertyName("share_content")]
         public string ShareContent { get; set; }
         [JsonPropertyName("version")]
