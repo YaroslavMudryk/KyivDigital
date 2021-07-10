@@ -63,7 +63,10 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
-
+            services.AddHttpClient<IKyivService, KyivService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
 
 
 

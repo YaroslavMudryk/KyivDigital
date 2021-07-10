@@ -1,4 +1,5 @@
-﻿using KyivDigital.Business.Models;
+﻿using KyivDigital.Business.Helpers;
+using KyivDigital.Business.Models;
 using KyivDigital.Business.Services.Interfaces;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -143,8 +144,9 @@ namespace KyivDigital.Business.Services.Implementations
         public async Task<BaseResponse> VoteForFeedAsync(string id, RateModel rateModel)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
-            string url = $"api/v3/feed/{id}";
-            var response = await _httpClient.GetAsync(url);
+            string url = $"api/v3/feed/{id}/vote";
+            var requestContent = HttpConvertor.GetHttpContent(rateModel);
+            var response = await _httpClient.PostAsync(url, requestContent);
             var content = await response.Content.ReadAsStringAsync();
             var voteResponse = JsonSerializer.Deserialize<BaseResponse>(content);
             return voteResponse;
