@@ -55,11 +55,18 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
-
             services.AddHttpClient<IPinDataService, PinDataService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IOrderReceiptService, OrderReceiptService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+
+
+
+
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

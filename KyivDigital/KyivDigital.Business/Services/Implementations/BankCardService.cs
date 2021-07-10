@@ -64,7 +64,7 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/card/bank";
-            var response = await _httpClient.DeleteAsync(url);
+            var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
             var voteResponse = JsonSerializer.Deserialize<CardsList>(content);
             return voteResponse;
@@ -74,7 +74,7 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/card/bank/phone";
-            var response = await _httpClient.DeleteAsync(url);
+            var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
             var voteResponse = JsonSerializer.Deserialize<PhoneModel>(content);
             return voteResponse;
