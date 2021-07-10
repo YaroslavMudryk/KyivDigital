@@ -3,6 +3,10 @@ namespace KyivDigital.Business.Models
 {
     public class BaseResponse
     {
+        [JsonPropertyName("message_advanced")]
+        public AdvancedErrorMessage MessageAdvanced { get; set; }
+        [JsonPropertyName("success")]
+        public bool Success { get; set; }
         [JsonPropertyName("message")]
         public string ErrorMessage { get; set; }
         public bool IsSuccess

@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 
 namespace KyivDigital.Business.Models
 {
-    public class HeadLineModel : BaseResponse
+    public class HeadLineModel
     {
         [JsonPropertyName("id")]
         public long Id { get; set; }

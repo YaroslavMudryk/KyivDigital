@@ -1,5 +1,4 @@
 using KyivDigital.Business.Services.Implementations;
-using KyivDigital.Business.Services.Implementations.Mocks;
 using KyivDigital.Business.Services.Interfaces;
 using KyivDigital.MVC.Extensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -41,6 +40,10 @@ namespace KyivDigital.MVC
                 client.InitializationKyivDigitalClient();
             });
             services.AddHttpClient<IFeedService, FeedService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<ITravelCardService, TravelCardService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });

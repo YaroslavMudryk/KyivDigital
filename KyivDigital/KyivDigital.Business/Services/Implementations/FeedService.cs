@@ -146,8 +146,8 @@ namespace KyivDigital.Business.Services.Implementations
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
-            var feedResponse = JsonSerializer.Deserialize<FeedFineResponse>(content);
-            return feedResponse;
+            var voteResponse = JsonSerializer.Deserialize<BaseResponse>(content);
+            return voteResponse;
         }
     }
 }

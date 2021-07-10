@@ -1,5 +1,5 @@
-﻿using System.Text.Json.Serialization;
-
+﻿
+using System.Text.Json.Serialization;
 namespace KyivDigital.Business.Models
 {
     public class FeedParkingResponse

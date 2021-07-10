@@ -1,16 +1,20 @@
-﻿using System.Text.Json.Serialization;
-
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 namespace KyivDigital.Business.Models
 {
     public class Category
     {
+        [JsonPropertyName("active")]
+        public bool active { get; set; }
+        [JsonPropertyName("category_Order")]
+        public int categoryOrder { get; set; }
+        [JsonPropertyName("icon")]
+        public string Icon { get; set; }
         [JsonPropertyName("id")]
-        public int Id { get; set; }
-        [JsonPropertyName("name")]
-        public string Name { get; set; }
-        [JsonPropertyName("sub_title")]
-        public string SubTitle { get; set; }
-        [JsonPropertyName("topics")]
-        public Topic[] Topics { get; set; }
+        public long Id { get; set; }
+        [JsonPropertyName("services")]
+        public List<ServiceModel> Services { get; set; }
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
     }
 }

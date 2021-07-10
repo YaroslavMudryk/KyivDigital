@@ -123,7 +123,7 @@ namespace KyivDigital.MVC.Controllers
             claims.Add(new Claim(ClaimTypes.Role, "User"));
             claims.Add(new Claim(ClaimTypes.AuthenticationMethod, "Web"));
             claims.Add(new Claim(ClaimTypes.Email, profile.Emails.First()?.EmailAddress ?? "def@def"));
-            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY")?.PhoneNumer ?? "059950"));
+            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY")?.PhoneNumber ?? "059950"));
             claims.Add(new Claim("accessToken", token));
             claims.Add(new Claim("FirstName", profile.FirstName ?? "Киянин"));
             claims.Add(new Claim("MiddleName", profile.MiddleName ?? "Киянин"));
