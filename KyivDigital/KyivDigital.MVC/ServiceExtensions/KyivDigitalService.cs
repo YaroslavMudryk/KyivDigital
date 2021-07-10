@@ -1,0 +1,61 @@
+﻿using KyivDigital.Business.Services.Implementations;
+using KyivDigital.Business.Services.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
+using KyivDigital.MVC.Extensions;
+namespace KyivDigital.MVC.ServiceExtensions
+{
+    public static class KyivDigitalService
+    {
+        public static void AddKyivDigitalServices(this IServiceCollection services)
+        {
+            services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IHeadLineService, HeadLineService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IUserService, UserService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IFeedService, FeedService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<ITravelCardService, TravelCardService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IBankCardService, BankCardService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IFaqService, FaqService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IPinDataService, PinDataService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IOrderReceiptService, OrderReceiptService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IKyivService, KyivService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IKyivEventService, KyivEventService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IHourlyParkingService, HourlyParkingServiceV4>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+        }
+    }
+}
