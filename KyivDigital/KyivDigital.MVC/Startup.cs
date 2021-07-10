@@ -51,6 +51,12 @@ namespace KyivDigital.MVC
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IFaqService, FaqService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
