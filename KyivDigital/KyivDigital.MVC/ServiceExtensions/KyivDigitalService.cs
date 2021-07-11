@@ -64,6 +64,10 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IParkingService, ParkingService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
         }
     }
 }
