@@ -1,7 +1,7 @@
 ﻿using KyivDigital.Business.Services.Implementations;
 using KyivDigital.Business.Services.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using KyivDigital.MVC.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 namespace KyivDigital.MVC.ServiceExtensions
 {
     public static class KyivDigitalService
@@ -53,6 +53,10 @@ namespace KyivDigital.MVC.ServiceExtensions
                 client.InitializationKyivDigitalClient();
             });
             services.AddHttpClient<IHourlyParkingService, HourlyParkingServiceV4>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IGuessService, GuessService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
