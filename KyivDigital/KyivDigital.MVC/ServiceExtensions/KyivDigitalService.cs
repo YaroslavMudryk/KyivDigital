@@ -60,6 +60,10 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<ICarService, CarService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
         }
     }
 }
