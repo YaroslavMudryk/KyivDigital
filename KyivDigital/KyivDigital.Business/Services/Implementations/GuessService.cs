@@ -14,11 +14,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<AoAddressResponse> GetHousesAsync(string streetId, string house)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/guess/address/ao?street={streetId}&search={house}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -28,7 +28,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PremiseAddressResponse> GetFlatsAsync(string houseId, string premise)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/guess/address/premise?ao={houseId}&search={premise}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -38,7 +37,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<StreetAddressResponse> GetStreetsAsync(string street)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/guess/address/street?search={street}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();

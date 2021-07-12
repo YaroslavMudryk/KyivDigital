@@ -15,11 +15,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<EventModel> GetEventByIdAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/kyiv-events/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -29,7 +29,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<EventsResponse> GetEventsAsync(long category, string type, int page, double lat, double lng)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/kyiv-events?category={category}&type={type}&page={page}&lat={lat}&lng={lng}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -39,7 +38,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<EventModel> LikeEventAsync(long id, LikeRequest likeRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/kyiv-events/{id}/like";
             var requestContent = HttpConvertor.GetHttpContent(likeRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

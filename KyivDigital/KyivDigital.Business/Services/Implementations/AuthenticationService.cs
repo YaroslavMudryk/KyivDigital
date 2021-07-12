@@ -15,6 +15,7 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
         public async Task<LoginResponse> LoginAsync(LoginPhoneRequest login)
         {
@@ -32,7 +33,6 @@ namespace KyivDigital.Business.Services.Implementations
         }
         public async Task<LoginVerifyResponse> UpdateTokenAsync(LoginPhoneRequest loginPhoneRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var requestContent = HttpConvertor.GetHttpContent(loginPhoneRequest);
             var response = await _httpClient.PostAsync("api/v3/auth/refresh", requestContent);
             var content = await response.Content.ReadAsStringAsync();
@@ -42,7 +42,7 @@ namespace KyivDigital.Business.Services.Implementations
         }
         public async Task<BaseResponse> LogoutAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
+            
             var response = await _httpClient.PostAsync("api/v3/auth/logout", null);
             if (response.IsSuccessStatusCode)
                 return new BaseResponse

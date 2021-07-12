@@ -15,11 +15,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<FineOrderReceiptResponse> GetFineOrderReceiptAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/order-receipt/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -29,7 +29,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> SendFineOrderReceiptAsync(long id, FineSendEmailRequest fineSendEmailRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/card/bank/otp";
             var requestContent = HttpConvertor.GetHttpContent(fineSendEmailRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

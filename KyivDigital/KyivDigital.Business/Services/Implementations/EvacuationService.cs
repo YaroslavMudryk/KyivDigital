@@ -15,11 +15,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<CheckEvacuationCarResponse> CheckEvacuatedCarAsync(EvacuationCarRequest evacuationCarRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/evacuation/check";
             var requestContent = HttpConvertor.GetHttpContent(evacuationCarRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -30,7 +30,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> ConfirmEvacuationCarAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/confirm";
             var response = await _httpClient.PostAsync(url, null);
             var content = await response.Content.ReadAsStringAsync();
@@ -40,7 +39,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GetEvacuationCarResponse> GetEvacuatedCarsAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/evacuation";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -50,7 +48,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GooglePayDataResponse> GetEvacuationGooglePayDataAsync(long id, EvacuationPaymentRequest evacuationPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/penalty-payment?dry_run_google=1";
             var requestContent = HttpConvertor.GetHttpContent(evacuationPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -61,7 +58,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GetEvacuationPaymentResponse> GetEvacuationPaymentAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/penalty-payment";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -71,7 +67,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<EvacuationStatus> GetEvacuationStatusAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/status";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -81,7 +76,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GetEvacuationPaymentResponse> GetEvacuationSurchargeAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/surcharge";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -91,7 +85,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GooglePayDataResponse> GetEvacuationSurchargeGooglePayDataAsync(long id, EvacuationPaymentRequest evacuationPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/surcharge?dry_run_google=1";
             var requestContent = HttpConvertor.GetHttpContent(evacuationPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -102,7 +95,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PaymentResponse> MakeEvacuationPaymentAsync(long id, EvacuationPaymentRequest evacuationPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/penalty-payment";
             var requestContent = HttpConvertor.GetHttpContent(evacuationPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -113,7 +105,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PaymentResponse> MakeEvacuationSurchargePaymentAsync(long id, EvacuationPaymentRequest evacuationPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/evacuation/return/{id}/surcharge";
             var requestContent = HttpConvertor.GetHttpContent(evacuationPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

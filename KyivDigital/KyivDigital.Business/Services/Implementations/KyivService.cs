@@ -15,11 +15,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<ServiceModel> GetServiceInfoAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/services/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -29,7 +29,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ServiceResponse> GetServicesAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/services";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -39,7 +38,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ServiceModel> VoteForServiceAsync(long id, VoteRequest voteRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/services/{id}/vote";
             var requestContent = HttpConvertor.GetHttpContent(voteRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

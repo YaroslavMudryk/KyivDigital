@@ -15,11 +15,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<QRCodeModel> ChangeQRCodeShareStatusAsync(long id, QRCodeShareModel qRCodeShareModel)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/qr/{id}/shared";
             var requestContent = HttpConvertor.GetHttpContent(qRCodeShareModel);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -30,7 +30,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<QRCodesUsedResponse> ChangeQRCodesUsedMultipleStatusAsync(QRCodeUsedList qRCodeUsedList)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/qr/used-multiple";
             var requestContent = HttpConvertor.GetHttpContent(qRCodeUsedList);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -41,7 +40,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<Response<QRCodesUsedResponse>> ChangeQRCodesUsedMultipleStatusWithResponseAsync(QRCodeUsedList qRCodeUsedList)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/qr/used-multiple";
             var requestContent = HttpConvertor.GetHttpContent(qRCodeUsedList);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -52,7 +50,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<QRCodeModel> ChangeQRCodeUsedStatusAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/qr/{id}/used";
             var response = await _httpClient.PostAsync(url, null);
             var content = await response.Content.ReadAsStringAsync();
@@ -62,7 +59,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<QRCodeModel> ChangeQRCodeUsedStatusAsync(long id, QRCodeUsedModel qRCodeUsedModel)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/qr/{id}/used";
             var requestContent = HttpConvertor.GetHttpContent(qRCodeUsedModel);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -73,7 +69,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GooglePayDataResponse> GetQRCodeGooglePayDataAsync(QrTravelPaymentRequest qrTravelPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/qr/purchase";
             var requestContent = HttpConvertor.GetHttpContent(qrTravelPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -84,7 +79,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PaymentResponse> GetQRCodePurchaseLinkAsync(QrTravelPaymentRequest qrTravelPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/qr/purchase";
             var requestContent = HttpConvertor.GetHttpContent(qrTravelPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -95,7 +89,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<QRTicketData> GetQrTicketDataAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/qr/purchase";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -105,7 +98,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<QRCodesResponse> GetUserQRCodesAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/qr";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();

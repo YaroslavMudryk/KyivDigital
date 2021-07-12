@@ -15,11 +15,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<FeedEvacuationResponse> GetEvacuationFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -29,7 +29,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ExpiringQRsResponse> GetExpiringQRsFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -39,7 +38,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FeedFineResponse> GetFineFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -49,7 +47,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FeedInfoModel> GetInfoFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -59,7 +56,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page = default, int count = default)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "";
             if (page == default && count == default)
                 url = "api/v3/feed";
@@ -73,7 +69,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FeedParkingResponse> GetParkingFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -83,7 +78,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FeedParkingHourlyResponse> GetParkingHourlyFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -93,7 +87,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<QRPurchasedFeedResponse> GetQRPurchasedFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -103,7 +96,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<QRCodeModel> GetQRUsedFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -113,7 +105,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<TravelCardFeedResponse> GetTravelCardReplenishFeed(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -123,7 +114,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FeedResponse> GetUserHistoryAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -133,7 +123,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FeedCongratulationResponse> GetWelcomeFeedAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -143,7 +132,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> VoteForFeedAsync(string id, RateModel rateModel)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/feed/{id}/vote";
             var requestContent = HttpConvertor.GetHttpContent(rateModel);
             var response = await _httpClient.PostAsync(url, requestContent);

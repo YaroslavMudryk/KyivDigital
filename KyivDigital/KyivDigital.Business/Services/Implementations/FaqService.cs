@@ -16,11 +16,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<CategotiesFaqResponse> GetCategoriesFaqAsync(string query, int with_top)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/faq";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -30,7 +30,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FaqDetailResponse> GetFaqDetailAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/faq/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -40,7 +39,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> VoteForFaqAsync(long id, RateFaqRequest rateFaqRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/faq/{id}/vote";
             var requestContent = HttpConvertor.GetHttpContent(rateFaqRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

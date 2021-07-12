@@ -16,11 +16,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<BaseResponse> SetPinDataAsync(PinData pinData)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/pin-data";
             var requestContent = HttpConvertor.GetHttpContent(pinData);
             var response = await _httpClient.PostAsync(url, requestContent);

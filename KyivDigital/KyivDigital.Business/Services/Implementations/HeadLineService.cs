@@ -14,11 +14,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<HeadLineModel> GetHeadLineAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var response = await _httpClient.GetAsync("api/v3/headline");
             var headLineResponse = JsonSerializer.Deserialize<HeadLineModel>(await response.Content.ReadAsStringAsync());
             return headLineResponse;

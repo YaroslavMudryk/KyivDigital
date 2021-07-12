@@ -16,11 +16,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<FineCheckCarResponse> CheckFineCarAsync(FineCheckCarRequest fineCheckCarRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/penalties/check";
             var requestContent = HttpConvertor.GetHttpContent(fineCheckCarRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -31,7 +31,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GooglePayDataResponse> GetFineGooglePayDataAsync(string id, FinePaymentRequest finePaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/penalties/pay/{id}?dry_run_google=1";
             var requestContent = HttpConvertor.GetHttpContent(finePaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -42,7 +41,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FinePaymentResponse> GetFinePaymentDetailsByIdAsync(string id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/penalties/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -52,7 +50,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FinesPaymentFeedResponse> GetFinePaymentsFeedAsync(int page = 1)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/penalties/feed?page={page}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -62,7 +59,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FinesResponse> GetFinesAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/penalties";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -72,7 +68,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<FinesRegionsResponse> GetFinesRegionsAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/penalties/regions";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -82,7 +77,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GooglePayDataResponse> GetRawFineGooglePayDataAsync(FinePaymentRequest finePaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/penalties/raw-payment?dry_run_google=1";
             var requestContent = HttpConvertor.GetHttpContent(finePaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -93,7 +87,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PaymentResponse> MakeFinePaymentAsync(string id, FinePaymentRequest finePaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/penalties/pay/{id}";
             var requestContent = HttpConvertor.GetHttpContent(finePaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -104,7 +97,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PaymentResponse> MakeRawFinePaymentAsync(FinePaymentRequest finePaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/penalties/raw-payment";
             var requestContent = HttpConvertor.GetHttpContent(finePaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

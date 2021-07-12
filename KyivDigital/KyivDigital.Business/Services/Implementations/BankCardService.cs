@@ -16,11 +16,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<MasterpassResponse> AddCardAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/card/bank/add";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -30,7 +30,7 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<OrderIdResponse> ConfirmCodeAsync(OtpRequest otpRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
+            
             string url = $"api/v3/card/bank/otp";
             var requestContent = HttpConvertor.GetHttpContent(otpRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -41,7 +41,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<MasterpassResponse> ConnectPhoneToMasterpassAsync(PhoneModel phoneModel)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/card/bank/phone";
             var requestContent = HttpConvertor.GetHttpContent(phoneModel);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -52,7 +51,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> DeleteCardAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/card/bank/{id}";
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -62,7 +60,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<CardsList> GetCardsAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/card/bank";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -72,7 +69,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PhoneModel> GetMasterpassPhoneAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/card/bank/phone";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -82,7 +78,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<Card> SetMainCardAsync(long id, MainCardRequest mainCardRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/card/bank/{id}/main";
             var requestContent = HttpConvertor.GetHttpContent(mainCardRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

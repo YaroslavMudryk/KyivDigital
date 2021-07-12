@@ -16,11 +16,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<BaseResponse> DeleteCarAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/cars/{id}";
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -30,7 +30,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<CarModel> GetCarByIdAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/cars/{id}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -40,7 +39,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<CarsResponse> GetCarsAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/cars";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -50,7 +48,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<CarVerificationDataResponse> GetCarVerificationDataAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/cars/{id}/verification";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -60,7 +57,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> MakeCarVerificationAsync(long id, CarVerificationRequest carVerificationRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/cars/{id}/verification";
             var requestContent = HttpConvertor.GetHttpContent(carVerificationRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -71,7 +67,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<CarModel> StoreCarAsync(CarRequest carRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/cars";
             var requestContent = HttpConvertor.GetHttpContent(carRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -82,7 +77,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<CarModel> UpdateCarAsync(long id, CarUpdateRequest carUpdateRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/cars/{id}";
             var requestContent = HttpConvertor.GetHttpContent(carUpdateRequest);
             var response = await _httpClient.PutAsync(url, requestContent);

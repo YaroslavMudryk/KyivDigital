@@ -20,11 +20,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<NotificationsResponse> ChangeAllNotificationsAsync(NotificationChangeRequest notificationChangeRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/subscriptions/all";
             var requestContent = HttpConvertor.GetHttpContent(notificationChangeRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -35,7 +35,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<NotificationsResponse> ChangeNotificationByIdAsync(long id, NotificationChangeRequest notificationChangeRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = $"api/v3/user/subscriptions/{id}";
             var requestContent = HttpConvertor.GetHttpContent(notificationChangeRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -46,7 +45,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> ChangePhoneAsync(long id, LoginPhoneRequest loginPhoneRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/phone/change";
             var requestContent = HttpConvertor.GetHttpContent(loginPhoneRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -57,7 +55,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> DeleteAddressAsync(long id)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/addresses/{id}";
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -67,7 +64,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> DeleteProfileAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/profile";
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -77,7 +73,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ConnectBankUrl> GetBankIdLinkAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/bankid/link";
             var response = await _httpClient.DeleteAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -87,7 +82,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<AdressesListModel> GetUserAdressesAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/addresses";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -97,7 +91,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<NotificationsResponse> GetUserNotificationsAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/subscriptions";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -107,7 +100,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<Profile> GetUserProfileAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/profile";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -127,7 +119,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<Addresse> SaveAddressAsync(AddOrEditAddressRequest addOrEditAddressRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/addresses";
             var requestContent = HttpConvertor.GetHttpContent(addOrEditAddressRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -138,7 +129,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<Addresse> UpdateAddressAsync(long id, AddOrEditAddressRequest addOrEditAddressRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = $"api/v3/user/addresses/{id}";
             var requestContent = HttpConvertor.GetHttpContent(addOrEditAddressRequest);
             var response = await _httpClient.PutAsync(url, requestContent);
@@ -149,7 +139,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<UpdateProfileResponse> UpdateUserEmailAsync(ProfileEmailRequest profileEmailRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = $"api/v3/user/email/change";
             var requestContent = HttpConvertor.GetHttpContent(profileEmailRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -161,7 +150,6 @@ namespace KyivDigital.Business.Services.Implementations
         public async Task<Profile> UpdateUserImageAsync(string filePath)
         {
             var fileStream = new FileStream(filePath, FileMode.Open);
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = "api/v3/user/avatar";
             var fileNames = fileStream.Name.Split('/');
             var currentName = fileNames[fileNames.Length - 1]; 
@@ -174,7 +162,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<BaseResponse> VerifyChangedPhoneAsync(LoginPhoneRequest loginPhoneRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             var url = $"api/v3/user/phone/change/verify";
             var requestContent = HttpConvertor.GetHttpContent(loginPhoneRequest);
             var response = await _httpClient.PostAsync(url, requestContent);

@@ -16,11 +16,11 @@ namespace KyivDigital.Business.Services.Implementations
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
         }
 
         public async Task<ParkingBayResponse> GetParkingBayAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/parking/buy";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -30,7 +30,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<GooglePayDataResponse> GetParkingGooglePayDataAsync(ParkingPaymentRequest parkingPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/parking/buy?dry_run_google=1";
             var requestContent = HttpConvertor.GetHttpContent(parkingPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
@@ -41,7 +40,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ParkingSubscriptionsResponse> GetParkingSubscriptionsArchiveAsync(int page)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/parking/tickets-archive?page={page}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -51,7 +49,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ParkingSubscriptionsResponse> GetParkingSubscriptionsAsync(int page)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = $"api/v3/parking/tickets?page={page}";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -61,7 +58,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ParkingZonesResponse> GetParkingZonesAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/parking/zones";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -71,7 +67,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<ZonePricesResponse> GetZonePricesAsync()
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/parking/prices";
             var response = await _httpClient.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
@@ -81,7 +76,6 @@ namespace KyivDigital.Business.Services.Implementations
 
         public async Task<PaymentResponse> MakeParkingPaymentAsync(ParkingPaymentRequest parkingPaymentRequest)
         {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
             string url = "api/v3/parking/buy";
             var requestContent = HttpConvertor.GetHttpContent(parkingPaymentRequest);
             var response = await _httpClient.PostAsync(url, requestContent);
