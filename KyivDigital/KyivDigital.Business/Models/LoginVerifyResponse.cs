@@ -1,7 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 namespace KyivDigital.Business.Models
 {
-    public class LoginVerifyResponse
+    public class LoginVerifyResponse : BaseResponse
     {
         [JsonPropertyName("min_version")]
         public string MinVersion { get; set; }
