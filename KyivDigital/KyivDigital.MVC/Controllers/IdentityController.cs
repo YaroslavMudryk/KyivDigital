@@ -116,6 +116,7 @@ namespace KyivDigital.MVC.Controllers
             }));
         }
 
+        [NonAction]
         private async Task AuthAsync(Profile profile, string token)
         {
             var claims = new List<Claim>();
