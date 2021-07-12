@@ -8,11 +8,7 @@ namespace KyivDigital.MVC.ServiceExtensions
     {
         public static void AddKyivDigitalServices(this IServiceCollection services)
         {
-            services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
-            {
-                client.InitializationKyivDigitalClient();
-            });
-            services.AddHttpClient<IHeadLineService, HeadLineService>(client =>
+            services.AddHttpClient<ITravelCardService, TravelCardService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
@@ -24,7 +20,15 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
-            services.AddHttpClient<ITravelCardService, TravelCardService>(client =>
+            services.AddHttpClient<IEvacuationService, EvacuationService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IQrService, QrService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IPenaltiesService, PenaltiesService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
@@ -32,15 +36,19 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<ICarService, CarService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IParkingService, ParkingService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
+            services.AddHttpClient<IGuessService, GuessService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
             services.AddHttpClient<IFaqService, FaqService>(client =>
-            {
-                client.InitializationKyivDigitalClient();
-            });
-            services.AddHttpClient<IPinDataService, PinDataService>(client =>
-            {
-                client.InitializationKyivDigitalClient();
-            });
-            services.AddHttpClient<IOrderReceiptService, OrderReceiptService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
@@ -56,27 +64,19 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
-            services.AddHttpClient<IGuessService, GuessService>(client =>
+            services.AddHttpClient<IAuthenticationService, AuthenticationService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
-            services.AddHttpClient<ICarService, CarService>(client =>
+            services.AddHttpClient<IOrderReceiptService, OrderReceiptService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
-            services.AddHttpClient<IParkingService, ParkingService>(client =>
+            services.AddHttpClient<IHeadLineService, HeadLineService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
-            services.AddHttpClient<IQrService, QrService>(client =>
-            {
-                client.InitializationKyivDigitalClient();
-            });
-            services.AddHttpClient<IPenaltiesService, PenaltiesService>(client =>
-            {
-                client.InitializationKyivDigitalClient();
-            });
-            services.AddHttpClient<IEvacuationService, EvacuationService>(client =>
+            services.AddHttpClient<IPinDataService, PinDataService>(client =>
             {
                 client.InitializationKyivDigitalClient();
             });
