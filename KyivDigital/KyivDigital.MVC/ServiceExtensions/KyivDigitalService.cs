@@ -68,6 +68,10 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IQrService, QrService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
         }
     }
 }
