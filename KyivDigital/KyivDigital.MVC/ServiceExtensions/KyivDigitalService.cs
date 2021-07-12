@@ -72,6 +72,10 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IPenaltiesService, PenaltiesService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
         }
     }
 }
