@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 namespace KyivDigital.Business.Models
 {
     public class Profile : BaseResponse
@@ -20,10 +21,10 @@ namespace KyivDigital.Business.Models
         [JsonPropertyName("share_content")]
         public string ShareContent { get; set; }
         [JsonPropertyName("version")]
-        public int Version { get; set; }
+        public int? Version { get; set; }
         [JsonPropertyName("emails")]
-        public Email[] Emails { get; set; }
+        public List<Email> Emails { get; set; }
         [JsonPropertyName("phones")]
-        public Phone[] Phones { get; set; }
+        public List<Phone> Phones { get; set; }
     }
 }

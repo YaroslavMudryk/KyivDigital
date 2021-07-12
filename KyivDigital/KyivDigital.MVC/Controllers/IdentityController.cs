@@ -27,9 +27,7 @@ namespace KyivDigital.MVC.Controllers
             _userService = userService;
         }
 
-
         public IActionResult Index() => RedirectToAction("Login");
-
 
         [HttpGet("login")]
         public IActionResult Login()
@@ -80,7 +78,7 @@ namespace KyivDigital.MVC.Controllers
         {
             if (!User.Identity.IsAuthenticated)
                 return LocalRedirect("~/identity/login");
-            var res = _loginService.LogoutAsync();
+            //var res = _loginService.LogoutAsync();
             _sessionService.ClearSessions();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
@@ -123,8 +121,9 @@ namespace KyivDigital.MVC.Controllers
             claims.Add(new Claim(ClaimTypes.NameIdentifier, profile.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Role, "User"));
             claims.Add(new Claim(ClaimTypes.AuthenticationMethod, "Web"));
-            claims.Add(new Claim(ClaimTypes.Email, profile.Emails.First()?.EmailAddress ?? "def@def"));
-            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY")?.PhoneNumber ?? "059950"));
+            if (profile.Emails.Count > 0)
+                claims.Add(new Claim(ClaimTypes.Email, profile.Emails.First().EmailAddress));
+            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY").PhoneNumber));
             claims.Add(new Claim("accessToken", token));
             claims.Add(new Claim("FirstName", profile.FirstName ?? "Киянин"));
             claims.Add(new Claim("MiddleName", profile.MiddleName ?? "Киянин"));
