@@ -76,6 +76,10 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IEvacuationService, EvacuationService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
         }
     }
 }
