@@ -6,6 +6,7 @@ namespace KyivDigital.Business.Services.Interfaces
     {
         Task<LoginResponse> LoginAsync(LoginPhoneRequest login);
         Task<TokenResponse> VerifyCodeAsync(LoginPhoneRequest login);
+        Task<LoginVerifyResponse> UpdateTokenAsync(LoginPhoneRequest loginPhoneRequest);
         Task<BaseResponse> LogoutAsync();
     }
 }

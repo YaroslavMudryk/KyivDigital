@@ -50,7 +50,15 @@ namespace KyivDigital.Business.Services.Implementations
 
         public void UpdateClaim(Claim claim)
         {
-            throw new System.NotImplementedException();
+            var claimsIdentity = (ClaimsIdentity)_httpContextAccessor.HttpContext.User.Identity;
+            var oldClaim = claimsIdentity.Claims.FirstOrDefault(p => p.Type == ClaimTypes.UserData);
+            if (oldClaim != null)
+            {
+                claimsIdentity.RemoveClaim(oldClaim);
+                claimsIdentity.AddClaim(claim);
+                return;
+            }
+            claimsIdentity.AddClaim(claim);
         }
 
         public void UpdateClaims(List<Claim> claim)
