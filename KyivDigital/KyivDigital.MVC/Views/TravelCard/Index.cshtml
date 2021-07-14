@@ -1,68 +1,157 @@
 ﻿@model IEnumerable<KyivDigital.Business.Models.TravelCardModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Картки";
 }
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Додати нову</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BalanceWallet)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Code)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LockedAt)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Type)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Balance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BalanceWallet)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Code)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LockedAt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+
+<div class="container">
+    <div class="col-4" style="float:left;">
+        @foreach (var item in Model)
+        {
+            <div style="margin-bottom: 8px; background: #F7F7F7;" class="form-group">
+                <p style="position:absolute; color: white; padding-left:27px; padding-top:123px; font-size: 20px;">@item.Code</p>
+                @switch (item.Type)
+                {
+                    case 0:
+                        {
+                            <img src="~/Picts/Cards/KyivTravelCard.jpg" style="border-radius:15px; margin-left:15px;" height="187" width="300" />
+                            break;
+                        }
+                    case 1:
+                        {
+                            <img src="~/Picts/Cards/KyivManCard.png" style="border-radius:15px; margin-left:15px;" height="187" width="300" />
+                            break;
+                        }
+                    case 2:
+                        {
+                            <img src="~/Picts/Cards/KyivStudentCard.jpg" style="border-radius:15px; margin-left:15px;" height="187" width="300" />
+                            break;
+                        }
+                    default:
+                        {
+                            <img src="~/Picts/Cards/KyivTravelCard.jpg" style="border-radius:15px; margin-left:15px;" height="187" width="300" />
+                            break;
+                        }
+                }
+                <div style="float:left;">@item.Name</div>
+                <div style="float:right;">
+                    Кіл. поїздок: @item.Balance
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-8" style="color:red; float:right; border: 1px solid black;">
+        <p>wejkfhweilfjweiofjwiejfioejiwfoiwefwaelkfgjeowafj</p>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Balance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BalanceWallet)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Code)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LockedAt)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Type)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    @if (item.Balance > 0)
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Balance)
+                        </td>
+                    }
+                    else
+                    {
+                        if (item.MonthlyTicket != null)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MonthlyTicket.Balance)
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Balance)
+                            </td>
+                        }
+                    }
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BalanceWallet)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LockedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @switch (item.Type)
+                        {
+                            case 0:
+                                {
+                                    <img src="~/Picts/Cards/KyivTravelCard.jpg" height="100" width="160" />
+                                    break;
+                                }
+                            case 1:
+                                {
+                                    <img src="~/Picts/Cards/KyivManCard.png" height="100" width="160" />
+                                    break;
+                                }
+                            case 2:
+                                {
+                                    <img src="~/Picts/Cards/KyivStudentCard.jpg" height="100" width="160" />
+                                    break;
+                                }
+                            default:
+                                {
+                                    <img src="~/Picts/Cards/KyivTravelCard.jpg" height="100" width="160" />
+                                    break;
+                                }
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>*@
