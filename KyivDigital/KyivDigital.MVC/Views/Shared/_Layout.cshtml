@@ -17,15 +17,11 @@
     <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 @{
-    string fullName = null;
-    var firstName = User.Claims.FirstOrDefault(x => x.Type == "FirstName");
-    var lastName = User.Claims.FirstOrDefault(x => x.Type == "LastName");
-    if (firstName != null && lastName != null)
-        fullName = $"{firstName.Value} {lastName.Value}";
+    var firstName = User.Claims.FirstOrDefault(x => x.Type == "FirstName")?.Value;
 
-    KyivDigital.Business.Models.HeadLineModel headLine = null;
-    if (User.Identity.IsAuthenticated)
-        headLine = await headLineService.GetHeadLineAsync();
+    //KyivDigital.Business.Models.HeadLineModel headLine = null;
+    //if (User.Identity.IsAuthenticated)
+    //    headLine = await headLineService.GetHeadLineAsync();
 
 }
 <body>
@@ -37,8 +33,7 @@
                 </a>
                 @if (User.Identity.IsAuthenticated)
                 {
-
-                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"   >
+                    @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"   >
                         <ul class="navbar-nav flex-grow-1">
                             <li class="nav-item">
                                 <p>@headLine.Weather.Temp℃</p>
@@ -69,47 +64,28 @@
                                 }
                             </li>
                         </ul>
-                    </div>
+                    </div>*@
 
                     <div class="dropdown user-menu">
                         <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" title="home">
                             <img src="@claimsProvider.GetValueByType("Avatar")" width="40" height="40" class="rounded-circle" title="avatar" />
                         </a>
                         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
-                            <li><a class="dropdown-item disabled" href="#">Транспортні картки</a></li>
-                            <li><a class="dropdown-item disabled" href="#">Сервіси</a></li>
-                            <li><a class="dropdown-item disabled" href="#">Налаштування</a></li>
+                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Index">Профіль</a></li>
+                            <li><a class="dropdown-item" asp-controller="TravelCard" asp-action="Index">Транспортні картки</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="@Url.Action("Logout","Identity")">Вийти</a></li>
+                            <li><a class="dropdown-item" href="@Url.Action("Logout","Identity")">Вихід</a></li>
                         </ul>
                     </div>
                 }
             </div>
         </div>
     </header>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - "Київ Цифровий"</a>

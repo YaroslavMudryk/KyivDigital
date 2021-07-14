@@ -14,7 +14,7 @@ namespace KyivDigital.Business.Models
         [JsonPropertyName("id")]
         public long Id { get; set; }
         [JsonPropertyName("locked_at")]
-        public int LockedAt { get; set; }
+        public int? LockedAt { get; set; }
         [JsonPropertyName("monthly_ticket")]
         public MonthlyTicket MonthlyTicket { get; set; }
         [JsonPropertyName("monthly_ticket_purchase")]

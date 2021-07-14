@@ -123,11 +123,9 @@ namespace KyivDigital.MVC.Controllers
             claims.Add(new Claim(ClaimTypes.AuthenticationMethod, "Web"));
             if (profile.Emails.Count > 0)
                 claims.Add(new Claim(ClaimTypes.Email, profile.Emails.First().EmailAddress));
-            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones.First(x => x.Type == "PRIMARY").PhoneNumber));
+            claims.Add(new Claim(ClaimTypes.MobilePhone, profile.Phones[0].PhoneNumber));
             claims.Add(new Claim("accessToken", token));
             claims.Add(new Claim("FirstName", profile.FirstName ?? "Киянин"));
-            claims.Add(new Claim("MiddleName", profile.MiddleName ?? "Киянин"));
-            claims.Add(new Claim("LastName", profile.LastName ?? "Киянин"));
             claims.Add(new Claim("Avatar", profile.Avatar ?? "/Picts/Default.jpg"));
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
