@@ -6,7 +6,7 @@ namespace KyivDigital.Business.Models
         [JsonPropertyName("min_version")]
         public string MinVersion { get; set; }
         [JsonPropertyName("profile")]
-        public NewUserModel Profile { get; set; }
+        public Profile Profile { get; set; }
         [JsonPropertyName("token")]
         public TokenModel TokenModel { get; set; }
     }
