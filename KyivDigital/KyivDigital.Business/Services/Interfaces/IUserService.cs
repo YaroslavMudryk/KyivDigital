@@ -17,7 +17,7 @@ namespace KyivDigital.Business.Services.Interfaces
         Task<Addresse> SaveAddressAsync(AddOrEditAddressRequest addOrEditAddressRequest);
         Task<Addresse> UpdateAddressAsync(long id, AddOrEditAddressRequest addOrEditAddressRequest);
         Task<UpdateProfileResponse> UpdateUserEmailAsync(ProfileEmailRequest profileEmailRequest);
-        Task<Profile> UpdateUserImageAsync(string filePath);
+        //Task<Profile> UpdateUserImageAsync(string filePath);
         Task<BaseResponse> VerifyChangedPhoneAsync(LoginPhoneRequest loginPhoneRequest);
     }
 }

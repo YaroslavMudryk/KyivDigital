@@ -1,6 +1,7 @@
 ﻿using KyivDigital.Business.Helpers;
 using KyivDigital.Business.Models;
 using KyivDigital.Business.Services.Interfaces;
+using KyivDigital.Business.WebHandlers;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -9,19 +10,18 @@ namespace KyivDigital.Business.Services.Implementations
 {
     public class KyivEventService : IKyivEventService
     {
-        private readonly HttpClient _httpClient;
-        private readonly IClaimsProvider _claimsProvider;
+        private readonly KyivDigitalRequest _kyivDigitalRequest;
         public KyivEventService(HttpClient httpClient, IClaimsProvider claimsProvider)
         {
-            _httpClient = httpClient;
-            _claimsProvider = claimsProvider;
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
+            var token = claimsProvider.GetAccessToken();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            _kyivDigitalRequest = new KyivDigitalRequest(httpClient);
         }
 
         public async Task<EventModel> GetEventByIdAsync(long id)
         {
             string url = $"api/v3/kyiv-events/{id}";
-            var response = await _httpClient.GetAsync(url);
+            var response = await _kyivDigitalRequest.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
             var voteResponse = JsonSerializer.Deserialize<EventModel>(content);
             return voteResponse;
@@ -30,7 +30,7 @@ namespace KyivDigital.Business.Services.Implementations
         public async Task<EventsResponse> GetEventsAsync(long category, string type, int page, double lat, double lng)
         {
             string url = $"api/v3/kyiv-events?category={category}&type={type}&page={page}&lat={lat}&lng={lng}";
-            var response = await _httpClient.GetAsync(url);
+            var response = await _kyivDigitalRequest.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
             var voteResponse = JsonSerializer.Deserialize<EventsResponse>(content);
             return voteResponse;
@@ -40,7 +40,7 @@ namespace KyivDigital.Business.Services.Implementations
         {
             string url = $"api/v3/kyiv-events/{id}/like";
             var requestContent = HttpConvertor.GetHttpContent(likeRequest);
-            var response = await _httpClient.PostAsync(url, requestContent);
+            var response = await _kyivDigitalRequest.PostAsync(url, requestContent);
             var content = await response.Content.ReadAsStringAsync();
             var voteResponse = JsonSerializer.Deserialize<EventModel>(content);
             return voteResponse;

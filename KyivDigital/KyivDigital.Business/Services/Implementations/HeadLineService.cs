@@ -1,5 +1,6 @@
 ﻿using KyivDigital.Business.Models;
 using KyivDigital.Business.Services.Interfaces;
+using KyivDigital.Business.WebHandlers;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -19,7 +20,6 @@ namespace KyivDigital.Business.Services.Implementations
         public async Task<HeadLineModel> GetHeadLineAsync()
         {
             var response = await _kyivDigitalRequest.GetAsync("api/v3/headline");
-            _kyivDigitalRequest.CheckAuthResponse(response);
             var headLineResponse = JsonSerializer.Deserialize<HeadLineModel>(await response.Content.ReadAsStringAsync());
             return headLineResponse;
         }

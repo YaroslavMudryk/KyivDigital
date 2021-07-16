@@ -3,23 +3,21 @@ using KyivDigital.Business.Helpers;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-
-namespace KyivDigital.Business.Services.Interfaces
+namespace KyivDigital.Business.WebHandlers
 {
     public class KyivDigitalRequest
     {
-        private readonly string _token;
         private readonly HttpClient _httpClient;
 
         public KyivDigitalRequest(HttpClient httpClient)
         {
-            _httpClient = _httpClient ?? httpClient;
+            _httpClient = httpClient;
         }
 
 
         public async Task<HttpResponseMessage> PostAsync(string url, object data)
         {
-            return await PostAuthorizeAsync(url, data, _token);
+            return await PostAuthorizeAsync(url, data, null);
         }
 
         public async Task<HttpResponseMessage> PostAuthorizeAsync(string url, object data, string accessToken)
@@ -34,7 +32,7 @@ namespace KyivDigital.Business.Services.Interfaces
 
         public async Task<HttpResponseMessage> GetAsync(string url)
         {
-            return await GetAuthorizeAsync(url, _token);
+            return await GetAuthorizeAsync(url, null);
         }
 
         public async Task<HttpResponseMessage> GetAuthorizeAsync(string url, string accessToken)
@@ -48,7 +46,7 @@ namespace KyivDigital.Business.Services.Interfaces
 
         public async Task<HttpResponseMessage> PutAsync(string url, object data)
         {
-            return await PutAuthorizeAsync(url, data, _token);
+            return await PutAuthorizeAsync(url, data, null);
         }
 
         public async Task<HttpResponseMessage> PutAuthorizeAsync(string url, object data, string accessToken)
@@ -63,7 +61,7 @@ namespace KyivDigital.Business.Services.Interfaces
 
         public async Task<HttpResponseMessage> DeleteAsync(string url)
         {
-            return await DeleteAuthorizeAsync(url, _token);
+            return await DeleteAuthorizeAsync(url, null);
         }
 
         public async Task<HttpResponseMessage> DeleteAuthorizeAsync(string url, string accessToken)
