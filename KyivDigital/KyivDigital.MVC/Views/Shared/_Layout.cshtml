@@ -13,6 +13,23 @@
         .user-menu {
             margin-left: auto;
         }
+
+        .flexWeather {
+            flex: auto;
+        }
+
+        .listFlexWeather {
+            flex-direction: row;
+        }
+
+        .tempLiWeather {
+            margin-left: auto;
+        }
+
+        .conLiWeather {
+            margin-right: 25px;
+            padding-left: 10px;
+        }
     </style>
     <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
@@ -33,12 +50,12 @@
                 </a>
                 @if (User.Identity.IsAuthenticated)
                 {
-                    @*<div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"   >
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between flexWeather">
+                        <ul class="navbar-nav flex-grow-1 listFlexWeather">
+                            <li class="nav-item tempLiWeather">
                                 <p>@headLine.Weather.Temp℃</p>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item conLiWeather">
                                 @switch (headLine.Weather.Condition)
                                 {
                                     case 0:
@@ -64,7 +81,7 @@
                                 }
                             </li>
                         </ul>
-                    </div>*@
+                    </div>
 
                     <div class="dropdown user-menu">
                         <a href="/" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false" title="home">
