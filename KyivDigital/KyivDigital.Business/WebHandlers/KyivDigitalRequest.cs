@@ -25,7 +25,9 @@ namespace KyivDigital.Business.WebHandlers
             if (!string.IsNullOrWhiteSpace(accessToken))
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
             var httpContent = HttpConvertor.GetHttpContent(data);
-            return await _httpClient.PostAsync(url, httpContent);
+            var response = await _httpClient.PostAsync(url, httpContent);
+            CheckAuthResponse(response);
+            return response;
         }
 
 
@@ -39,7 +41,9 @@ namespace KyivDigital.Business.WebHandlers
         {
             if (!string.IsNullOrWhiteSpace(accessToken))
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-            return await _httpClient.GetAsync(url);
+            var response = await _httpClient.GetAsync(url);
+            CheckAuthResponse(response);
+            return response;
         }
 
 
@@ -54,7 +58,9 @@ namespace KyivDigital.Business.WebHandlers
             if (!string.IsNullOrWhiteSpace(accessToken))
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
             var httpContent = HttpConvertor.GetHttpContent(data);
-            return await _httpClient.PutAsync(url, httpContent);
+            var response = await _httpClient.PutAsync(url, httpContent);
+            CheckAuthResponse(response);
+            return response;
         }
 
 
@@ -68,7 +74,9 @@ namespace KyivDigital.Business.WebHandlers
         {
             if (!string.IsNullOrWhiteSpace(accessToken))
                 _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
-            return await _httpClient.DeleteAsync(url);
+            var response = await _httpClient.DeleteAsync(url);
+            CheckAuthResponse(response);
+            return response;
         }
 
 
