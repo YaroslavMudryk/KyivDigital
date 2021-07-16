@@ -22,6 +22,7 @@ namespace KyivDigital.MVC.Middlewares
             try
             {
                 await _next(httpContext);
+                HttpNotFound(httpContext);
             }
             catch (Exception ex)
             {
@@ -38,6 +39,12 @@ namespace KyivDigital.MVC.Middlewares
                 await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 context.Response.Redirect("/identity/login");
             }
+        }
+
+        private void HttpNotFound(HttpContext context)
+        {
+            if (context.Response.StatusCode == 404)
+                context.Response.Redirect("/error");
         }
     }
 }
