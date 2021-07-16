@@ -1,4 +1,4 @@
 # Київ Цифровий (Web)
 Веб застосунок для взаємодії з цифровими сервісами міста Києва.
 
-![image](https://user-images.githubusercontent.com/38474523/124987081-1be09380-e045-11eb-98f2-3952dee6f2d1.png)
+![image](https://user-images.githubusercontent.com/38474523/125938313-19e881b6-9840-4d96-b82f-30793869c634.png)
