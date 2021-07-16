@@ -10,6 +10,7 @@ namespace KyivDigital.MVC.Extensions
             client.DefaultRequestHeaders.Add("Accept", "application/json");
             client.DefaultRequestHeaders.Add("X-Client-Version", "1.1.1");
             client.DefaultRequestHeaders.Add("X-Client-Platform", "0");
+            client.Timeout = TimeSpan.FromSeconds(30);
         }
     }
 }

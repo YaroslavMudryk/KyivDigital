@@ -8,18 +8,18 @@ namespace KyivDigital.Business.Services.Implementations
 {
     public class HeadLineService : IHeadLineService
     {
-        private readonly HttpClient _httpClient;
-        private readonly IClaimsProvider _claimsProvider;
+        private readonly KyivDigitalRequest _kyivDigitalRequest;
         public HeadLineService(HttpClient httpClient, IClaimsProvider claimsProvider)
         {
-            _httpClient = httpClient;
-            _claimsProvider = claimsProvider;
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
+            var token = claimsProvider.GetAccessToken();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            _kyivDigitalRequest = new KyivDigitalRequest(httpClient);
         }
 
         public async Task<HeadLineModel> GetHeadLineAsync()
         {
-            var response = await _httpClient.GetAsync("api/v3/headline");
+            var response = await _kyivDigitalRequest.GetAsync("api/v3/headline");
+            _kyivDigitalRequest.CheckAuthResponse(response);
             var headLineResponse = JsonSerializer.Deserialize<HeadLineModel>(await response.Content.ReadAsStringAsync());
             return headLineResponse;
         }

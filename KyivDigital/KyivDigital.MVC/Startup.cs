@@ -1,5 +1,6 @@
 using KyivDigital.Business.Services.Implementations;
 using KyivDigital.Business.Services.Interfaces;
+using KyivDigital.MVC.Middlewares;
 using KyivDigital.MVC.ServiceExtensions;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -53,7 +54,7 @@ namespace KyivDigital.MVC
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseMiddleware<ExceptionMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
