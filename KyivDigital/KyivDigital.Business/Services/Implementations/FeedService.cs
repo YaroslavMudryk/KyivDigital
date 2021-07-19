@@ -54,6 +54,15 @@ namespace KyivDigital.Business.Services.Implementations
             return feedResponse;
         }
 
+        public async Task<FeedResponse> GetLastFeedAsync()
+        {
+            string url = "api/v3/feed?per_page=1";
+            var response = await _kyivDigitalRequest.GetAsync(url);
+            var content = await response.Content.ReadAsStringAsync();
+            var feedResponse = JsonSerializer.Deserialize<FeedResponse>(content);
+            return feedResponse;
+        }
+
         public async Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page = default, int count = default)
         {
             string url = $"api/v3/feed?page={page}&per_page={count}";

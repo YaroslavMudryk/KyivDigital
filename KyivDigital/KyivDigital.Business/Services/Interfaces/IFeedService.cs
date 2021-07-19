@@ -28,6 +28,8 @@ namespace KyivDigital.Business.Services.Interfaces
 
         Task<FeedCongratulationResponse> GetWelcomeFeedAsync(string id);
 
+        Task<FeedResponse> GetLastFeedAsync();
+
         Task<BaseResponse> VoteForFeedAsync(string id, RateModel rateModel);
     }
 }
