@@ -2,6 +2,7 @@
 using KyivDigital.Business.Services.Interfaces;
 using KyivDigital.Business.Storage;
 using KyivDigital.Business.WebHandlers;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -160,52 +161,57 @@ namespace KyivDigital.Business.Services.Implementations
             }
             else
             {
-                if (isAllFeedDownloaded(feedFromCache))
+                if (IsAllFeedDownloaded(feedFromCache))
                     return feedFromCache;
-                int currentPage = getCurrentPage(feedFromCache);
-                int count = getCountForCurrentPage(feedFromCache);
-                var feedResponse = await GetPagedUserHistoryAsync(currentPage, count);
-                var feeds = feedFromCache.Feed.Data;
+                var nextPage = GetNextPageForRequest(feedFromCache);
+                if (nextPage == -1)
+                    return null;
+                var feedResponse = await GetPagedUserHistoryAsync(nextPage, 20);
+                var feeds = feedResponse.Feed.Data;
+                var countOfNewFeed = feedResponse.Feed.Data.Count;
                 feedFromCache.Feed.Data.AddRange(feeds);
-                feedFromCache.Feed.Meta.Pagination = setNewPagination(feedFromCache, feedResponse);
+                feedFromCache.Feed.Data = feedFromCache.Feed.Data.OrderByDescending(x => x.CreatedAt).ToList();
+                feedFromCache.Feed.Meta.Pagination.Count += countOfNewFeed;
+                feedFromCache.Feed.Meta.Pagination.CurrentPage = nextPage;
                 _pagedFeedStorageService.Post(userId, feedFromCache);
-                return feedFromCache;
+                var feedToResponse = feedFromCache.DeepCopy();
+                var pag = feedFromCache.Feed.Meta.Pagination;
+                var skipCount = GetCountSkip(pag.TotalPages, pag.CurrentPage, pag.Total, pag.Count);
+                feedToResponse.Feed.Data = feedToResponse.Feed.Data.Skip(skipCount).ToList();
+                return feedToResponse;
             }
         }
 
-        private Pagination setNewPagination(PagedFeedResponse feedFromCache, PagedFeedResponse feedResponse)
+
+        private int GetCountSkip(int totalPages, int currentPage, int totalCount, int currentCount)
         {
-            return new Pagination
+            int per_page = 20;
+            if (totalPages == currentPage)
             {
-                Count = feedResponse.Feed.Meta.Pagination.Count + feedFromCache.Feed.Meta.Pagination.Count,
-                CurrentPage = feedResponse.Feed.Meta.Pagination.CurrentPage,
-                PerPage = feedResponse.Feed.Meta.Pagination.PerPage,
-                Total = feedResponse.Feed.Meta.Pagination.Total,
-                TotalPages = feedResponse.Feed.Meta.Pagination.TotalPages
-            };
+                if (totalCount % 20 == 0)
+                    return currentCount - 20;
+                var notFullCount = totalCount / per_page;
+                notFullCount++;
+                var diff = (per_page * notFullCount) - totalCount;
+                return currentCount - diff;
+            }
+            return currentCount - 20;
         }
 
-        private int getCurrentPage(PagedFeedResponse pagedFeed)
+        private int GetNextPageForRequest(PagedFeedResponse pagedFeed)
         {
-            var totalPage = pagedFeed.Feed.Meta.Pagination.TotalPages; // 4
-            var currentPage = pagedFeed.Feed.Meta.Pagination.CurrentPage; // 2
-            var nextPage = currentPage + 1; // 3
-            if (nextPage > totalPage)
-                return currentPage;
-            return nextPage; // 3
+            const int basic = -1;
+            var totalPages = pagedFeed.Feed.Meta.Pagination.TotalPages;
+            var currentPage = pagedFeed.Feed.Meta.Pagination.CurrentPage;
+            int nextPage = currentPage + 1;
+            if (nextPage > totalPages)
+            {
+                return basic;
+            }
+            return nextPage;
         }
 
-        private int getCountForCurrentPage(PagedFeedResponse pagedFeed)
-        {
-            var totalCountFeed = pagedFeed.Feed.Meta.Pagination.Total;// 69
-            var currentCount = pagedFeed.Feed.Data.Count; // 80
-            var diff = totalCountFeed - currentCount; //50
-            if (diff > 20 || diff < 1)
-                return 20; //20
-            return diff;
-        }
-
-        private bool isAllFeedDownloaded(PagedFeedResponse pagedFeed)
+        private bool IsAllFeedDownloaded(PagedFeedResponse pagedFeed)
         {
             var totalFeedCount = pagedFeed.Feed.Meta.Pagination.Total;
             var currentFeedCount = pagedFeed.Feed.Data.Count;

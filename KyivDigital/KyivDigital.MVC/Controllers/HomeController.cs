@@ -37,7 +37,7 @@ namespace KyivDigital.MVC.Controllers
         public async Task<IActionResult> _FeedData()
         {
             var response = await _feedService.GetPagedUserHistoryAsync();
-            if (response.Feed.Data == null || response.Feed.Data.Count == 0)
+            if (response == null || (response.Feed.Data == null || response.Feed.Data.Count == 0))
             {
                 return StatusCode(204);
             }
