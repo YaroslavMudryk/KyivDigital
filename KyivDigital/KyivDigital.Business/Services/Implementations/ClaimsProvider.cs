@@ -9,6 +9,9 @@ namespace KyivDigital.Business.Services.Implementations
     public class ClaimsProvider : IClaimsProvider
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public HttpContext HttpContext => _httpContextAccessor.HttpContext;
+
         public ClaimsProvider(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
@@ -64,6 +67,11 @@ namespace KyivDigital.Business.Services.Implementations
         public void UpdateClaims(List<Claim> claim)
         {
             throw new System.NotImplementedException();
+        }
+
+        public string GetUserId()
+        {
+            return HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
         }
     }
 }
