@@ -37,9 +37,24 @@
                         }
                 }
                 <div style="float:left;">@item.Name</div>
-                <div style="float:right;">
-                    Кіл. поїздок: @item.Balance
-                </div>
+                @if (item.MonthlyTicket != null)
+                {
+                    if (item.Balance > 0)
+                    {
+                        <div style="float:right;">
+                            Одноразові: @item.Balance
+                        </div>
+                    }
+                    <div style="float:right;">
+                        Проїзний: @item.MonthlyTicket.Balance
+                    </div>
+                }
+                else
+                {
+                    <div style="float:right;">
+                        Одноразові: @item.Balance
+                    </div>
+                }
             </div>
         }
     </div>
