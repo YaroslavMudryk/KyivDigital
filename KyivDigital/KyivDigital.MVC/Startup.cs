@@ -2,6 +2,7 @@ using KyivDigital.Business.Services.Implementations;
 using KyivDigital.Business.Services.Interfaces;
 using KyivDigital.MVC.Middlewares;
 using KyivDigital.MVC.ServiceExtensions;
+using KyivDigital.Business.Storage;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,6 +27,8 @@ namespace KyivDigital.MVC
             services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
             services.AddSession();
+            //services.AddSingleton(typeof(IStorageService<>), typeof(FileStorageService<>));
+            services.AddSingleton(typeof(IStorageService<>), typeof(InMemoryStorageService<>));
             services.AddTransient<IClaimsProvider, ClaimsProvider>();
             services.AddTransient<ISessionService, SessionService>();
             services.AddKyivDigitalServices();

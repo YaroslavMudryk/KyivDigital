@@ -12,7 +12,9 @@ namespace KyivDigital.Business.Services.Interfaces
 
         Task<FeedInfoModel> GetInfoFeedAsync(string id);
 
-        Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page = default, int count = default);
+        Task<PagedFeedResponse> GetPagedUserHistoryAsync();
+
+        Task<PagedFeedResponse> GetPagedUserHistoryAsync(int page, int count);
 
         Task<FeedParkingResponse> GetParkingFeedAsync(string id);
 
