@@ -83,7 +83,7 @@ namespace KyivDigital.Business.Models
 
         private string GetAppVersion()
         {
-            return "1.1.1";
+            return "1.2.1";
         }
         #endregion
     }
