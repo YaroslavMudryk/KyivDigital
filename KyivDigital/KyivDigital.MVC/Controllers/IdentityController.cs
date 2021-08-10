@@ -78,7 +78,7 @@ namespace KyivDigital.MVC.Controllers
         {
             if (!User.Identity.IsAuthenticated)
                 return LocalRedirect("~/identity/login");
-            //var res = _loginService.LogoutAsync();
+            var res = _loginService.LogoutAsync();
             _sessionService.ClearSessions();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login");
