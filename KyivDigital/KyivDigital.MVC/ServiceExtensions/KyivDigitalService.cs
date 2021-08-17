@@ -80,6 +80,10 @@ namespace KyivDigital.MVC.ServiceExtensions
             {
                 client.InitializationKyivDigitalClient();
             });
+            services.AddHttpClient<IGBProjectService, GBProjectService>(client =>
+            {
+                client.InitializationKyivDigitalClient();
+            });
         }
     }
 }
