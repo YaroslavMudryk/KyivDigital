@@ -39,7 +39,7 @@ namespace KyivDigital.Business.Services.Implementations
         public async Task<BaseResponse> DeleteTravelCardAsync(long id)
         {
             string url = $"api/v3/card/travel/{id}/unlink";
-            var response = await _kyivDigitalRequest.DeleteAsync(url);
+            var response = await _kyivDigitalRequest.PostAsync(url, null);
             var content = await response.Content.ReadAsStringAsync();
             var travelResponse = JsonSerializer.Deserialize<BaseResponse>(content);
             return travelResponse;
