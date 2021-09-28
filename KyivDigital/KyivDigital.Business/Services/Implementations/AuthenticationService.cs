@@ -4,6 +4,7 @@ using KyivDigital.Business.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -17,18 +18,23 @@ namespace KyivDigital.Business.Services.Implementations
     public class AuthenticationService : Interfaces.IAuthenticationService
     {
         private readonly HttpClient _httpClient;
+        private readonly IConfiguration _configuration;
         private readonly IClaimsProvider _claimsProvider;
         private readonly IHttpContextAccessor _httpContextAccessor;
-        public AuthenticationService(HttpClient httpClient, IClaimsProvider claimsProvider, IHttpContextAccessor httpContextAccessor)
+        
+        public AuthenticationService(HttpClient httpClient, IClaimsProvider claimsProvider, IHttpContextAccessor httpContextAccessor, IConfiguration configuration)
         {
             _httpClient = httpClient;
             _claimsProvider = claimsProvider;
             _httpContextAccessor = httpContextAccessor;
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _claimsProvider.GetAccessToken());
+            _configuration = configuration;
         }
+        
         public async Task<LoginResponse> LoginAsync(LoginPhoneRequest login)
         {
             var content = HttpConvertor.GetHttpContent(login);
+            _httpClient.DefaultRequestHeaders.Add("X-Firebase-AppCheck", _configuration["AppConfig:Firebase"]);
             var response = await _httpClient.PostAsync("api/v3/login", content);
             var loginResponse = JsonSerializer.Deserialize<LoginResponse>(await response.Content.ReadAsStringAsync());
             return loginResponse;
