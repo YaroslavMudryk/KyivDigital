@@ -27,12 +27,12 @@ namespace KyivDigital.Business.Services.Implementations
             return transportResponse;
         }
 
-        public async Task<TransportRoutesMapViewModel> GetTransportRouteDetailsAsync(long id, int saveSearch)
+        public async Task<TransportRouteDetailsResponse> GetTransportRouteDetailsAsync(long id, int saveSearch)
         {
             var url = $"api/v4/transport/routes/{id}?save_search={saveSearch}";
             var response = await _kyivDigitalRequest.GetAsync(url);
             var content = await response.Content.ReadAsStringAsync();
-            var transportResponse = JsonSerializer.Deserialize<TransportRoutesMapViewModel>(content);
+            var transportResponse = JsonSerializer.Deserialize<TransportRouteDetailsResponse>(content);
             return transportResponse;
         }
 
